@@ -44,12 +44,8 @@ class CustomEdit extends StatelessWidget {
       global: false,
       builder: (controller) {
         return Container(
-          //padding: const EdgeInsets.symmetric(horizontal: 10),
           alignment: Alignment.center,
           clipBehavior: Clip.hardEdge,
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          // TextFiled 的默认高为48（fontSize：16）
-          // 如果父布局比TextFiled高，需要设置padding值才能让TextFiled居中
           height: 56,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -94,7 +90,6 @@ class CustomEdit extends StatelessWidget {
               hintStyle: const TextStyle(
                 color: Colors.black45,
               ),
-              //contentPadding: const EdgeInsets.symmetric(vertical: 10),
               // 设置左边显示密码Icon
               prefixIconConstraints: const BoxConstraints(
                 maxWidth: 40,

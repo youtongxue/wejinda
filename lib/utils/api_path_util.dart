@@ -2,7 +2,7 @@ class ApiPathUtil {
   ApiPathUtil._();
 
   static const String springBootBaseUrl = "https://singlestep.cn/wejinda";
-  //static const String springBootBaseUrl = "http://192.168.218.5:8080/wejinda";
+  //static const String springBootBaseUrl = "http://192.168.179.5:8080/wejinda";
 
   static const String appInfo = "/app/info";
   static const String campuscardUserInfo = "/campuscard/userinfo";

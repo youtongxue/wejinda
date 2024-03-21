@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:wejinda/components/notification/custom_notification.dart';
 import 'package:wejinda/utils/assert_util.dart';
 import 'package:wejinda/viewmodel/user/user_page_vm.dart';
 import '../../components/view/setting_item_text.dart';

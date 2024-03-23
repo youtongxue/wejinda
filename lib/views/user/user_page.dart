@@ -43,6 +43,7 @@ Widget _userBg(BuildContext context, UserPageViewModel controller) {
       child: Container(
         color: Colors.transparent,
         height: context.height / 2.9,
+        width: context.width,
         child: Obx(
           () => Transform.scale(
             scale: controller.userBgPicScale.value,
@@ -52,6 +53,7 @@ Widget _userBg(BuildContext context, UserPageViewModel controller) {
                   () => controller.isLogin()
                       ? SizedBox(
                           height: context.height / 2.91,
+                          width: context.width,
                           child: ExtendedImage.network(
                             controller
                                     .loginedAppUserDTO.value!.userBgImg!.isEmpty
@@ -66,6 +68,7 @@ Widget _userBg(BuildContext context, UserPageViewModel controller) {
                         )
                       : SizedBox(
                           height: context.height / 2.91,
+                          width: context.width,
                           child: ExtendedImage.asset(
                             AssertUtil.userBg,
                             fit: BoxFit.cover,

@@ -13,7 +13,6 @@ import 'package:wejinda/viewmodel/timetable/timetable_vm.dart';
 
 import '../../bean/vo/schoolpage/school_card_item.dart';
 import '../../components/container/custom_container.dart';
-import '../../components/view/setting_item_text.dart';
 import '../../enumm/course_enum.dart';
 import '../../utils/assert_util.dart';
 import '../../utils/page_path_util.dart';
@@ -188,6 +187,7 @@ Widget _swiperBg(BuildContext context, SchoolPageViewModel controller) {
       child: Container(
         color: Colors.transparent,
         height: context.height / 2.9,
+        width: context.width,
         child: Obx(
           () => Transform.scale(
             scale: controller.userBgPicScale.value,
@@ -195,6 +195,7 @@ Widget _swiperBg(BuildContext context, SchoolPageViewModel controller) {
               children: [
                 SizedBox(
                   height: context.height / 2.91,
+                  width: context.width,
                   child: Stack(
                     children: [
                       // swiper组件

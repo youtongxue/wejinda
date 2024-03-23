@@ -24,12 +24,11 @@ class UserPageViewModel extends GetxController {
     return (null == loginedAppUserDTO.value) ? false : true;
   }
 
+  /// 设置背景图片随，滚动的的放大倍数
   void _setScale(double offset) {
     if (offset < 0) {
       final scale = 1 + offset.abs() / 300;
-      //userBgPicScale.value = scale.clamp(1, 1.3).toDouble();
       userBgPicScale.value = scale.clamp(1, 3).toDouble();
-      // debugPrint('放大倍数: ${userBgPicScale.value}');
     }
   }
 
@@ -38,7 +37,7 @@ class UserPageViewModel extends GetxController {
     super.onReady();
     scrollController.addListener(() {
       offset.value = scrollController.offset;
-      debugPrint('offset: > > > ${offset.value}}');
+      // debugPrint('offset: > > > ${offset.value}}');
       _setScale(offset.value);
       // debugPrint('滑动偏差: ${offset.value}');
     });

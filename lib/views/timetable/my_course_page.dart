@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:reorderables/reorderables.dart';
 import 'package:wejinda/components/view/custom_bottom_sheet.dart';
 import 'package:wejinda/enumm/appbar_enum.dart';
 import 'package:wejinda/enumm/color_enum.dart';
@@ -22,7 +21,7 @@ import '../../repository/course/data.dart';
 import '../../utils/page_path_util.dart';
 import '../../viewmodel/timetable/seeting_page_vm.dart';
 
-// 课程Item颜色
+/// 课程Item颜色
 Color itemColor(int index) {
   final controller = Get.find<TimeTableSeetingPageViewModel>();
 
@@ -36,7 +35,7 @@ Color itemColor(int index) {
   }
 }
 
-// 点击导入课表Icon
+/// 点击导入课表Icon
 Future<dynamic> _showBottomSheet(BuildContext context) {
   // 点击添加按钮，弹出BottomSheet
   return showMyBottomSheet(
@@ -124,7 +123,7 @@ Future<dynamic> _showBottomSheet(BuildContext context) {
   );
 }
 
-// 所有课程列表
+/// 所有课程列表
 Widget _courseList(BuildContext context) {
   final controller = Get.find<MyCoursePageViewModel>();
   final ttspVM = Get.find<TimeTableSeetingPageViewModel>();
@@ -189,6 +188,16 @@ Widget _courseList(BuildContext context) {
         },
         itemCount: controller.allCourseModel.value.courseModelList.length,
         onReorder: (oldIndex, newIndex) {
+          // 如果newIndex超出了范围，将其设置为列表长度减一
+          if (newIndex >
+              controller.allCourseModel.value.courseModelList.length) {
+            newIndex =
+                controller.allCourseModel.value.courseModelList.length - 1;
+          }
+          // 如果拖拽的是向下移动，则减去1，因为Flutter在计算新索引时会将其加1
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
           controller.reorderCourse(oldIndex, newIndex);
         },
         onReorderStart: (index) {
@@ -235,189 +244,6 @@ Widget _courseList(BuildContext context) {
       ),
     ),
   );
-
-  // return Obx(
-  //   () => ReorderableListView.builder(
-  //     itemBuilder: (context, index) {
-  //       return Container(
-  //         //foreAnim: false,
-  //         key: ValueKey("$index"),
-  //         // onTap: () {
-  //         //   controller.updateCourseModel(index);
-  //         // },
-  //         margin: const EdgeInsets.only(bottom: 16),
-  //         padding: const EdgeInsets.symmetric(horizontal: 16),
-  //         //borderRadius: BorderRadius.circular(10),
-  //         color: itemColor(index),
-  //         child: SizedBox(
-  //           height: 100,
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             children: [
-  //               Text(
-  //                 controller.allCourseModel.value.courseModelList[index].name,
-  //                 style: TextStyle(
-  //                   color: index == 0 ||
-  //                           (index == 1 &&
-  //                               ttspVM.changeCourseEnum.value ==
-  //                                   ChangeCourseEnum.on)
-  //                       ? Colors.white
-  //                       : MyColors.textMain.color,
-  //                   fontSize: 20,
-  //                 ),
-  //               ),
-  //               SvgPicture.asset(
-  //                 AssertUtil.iconGo,
-  //                 colorFilter: index == 0 ||
-  //                         (index == 1 &&
-  //                             ttspVM.changeCourseEnum.value ==
-  //                                 ChangeCourseEnum.on)
-  //                     ? const ColorFilter.mode(Colors.white, BlendMode.srcIn)
-  //                     : null,
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //     itemCount: controller.allCourseModel.value.courseModelList.length,
-  //     onReorder: (oldIndex, newIndex) {
-  //       controller.reorderCourse(oldIndex, newIndex);
-  //     },
-  //     onReorderStart: (index) {
-  //       // 每次开始拖拽时触发触觉反馈
-  //       HapticFeedback.heavyImpact();
-  //     },
-  //     proxyDecorator: (Widget child, int index, Animation<double> animation) {
-  //       // 获取当前的缩放值，根据动画的进度在1.0和1.04之间变化
-
-  //       // 使用Tween链来定义缩小再放大的动画
-  //       final Animation<double> scaleAnimation = TweenSequence<double>([
-  //         TweenSequenceItem(
-  //             tween: Tween<double>(begin: 1.0, end: 0.95), weight: 30),
-  //         TweenSequenceItem(
-  //             tween: Tween<double>(begin: 0.95, end: 1.04), weight: 70),
-  //       ]).animate(animation);
-
-  //       return AnimatedBuilder(
-  //         animation: scaleAnimation,
-  //         builder: (context, child) {
-  //           return Transform.scale(
-  //             scale: scaleAnimation.value,
-  //             alignment: Alignment.center, // 确保变换是相对于中心的
-  //             child: Container(
-  //               alignment: Alignment.center,
-  //               decoration: BoxDecoration(
-  //                 boxShadow: [
-  //                   BoxShadow(
-  //                     color: Colors.grey.withOpacity(0.2),
-  //                     spreadRadius: 6, // 扩散范围
-  //                     blurRadius: 20, // 模糊程度
-  //                     offset: const Offset(0, -6),
-  //                   ),
-  //                 ],
-  //               ),
-  //               child: Material(
-  //                 color: Colors.transparent,
-  //                 child: child,
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //         child: child,
-  //       );
-  //     },
-  //   ),
-  // );
-
-  // return Obx(
-  //   () => ReorderableColumn(
-  //     ignorePrimaryScrollController: true,
-  //     padding: const EdgeInsets.only(top: 16),
-  //     draggingWidgetOpacity: 0, // 被拖动Item的底部Widget透明度
-  //     //reorderAnimationDuration: const Duration(milliseconds: 50),
-  //     children: List.generate(
-  //       controller.allCourseModel.value.courseModelList.length,
-  //       (index) {
-  //         return CustomContainer(
-  //           key: ValueKey("$index"),
-  //           onTap: () {
-  //             controller.updateCourseModel(index);
-  //           },
-  //           margin: const EdgeInsets.only(bottom: 16),
-  //           padding: const EdgeInsets.symmetric(horizontal: 16),
-  //           borderRadius: BorderRadius.circular(10),
-  //           color: itemColor(index),
-  //           child: SizedBox(
-  //             height: 100,
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(
-  //                   controller.allCourseModel.value.courseModelList[index].name,
-  //                   style: TextStyle(
-  //                     color: index == 0 ||
-  //                             (index == 1 &&
-  //                                 ttspVM.changeCourseEnum.value ==
-  //                                     ChangeCourseEnum.on)
-  //                         ? Colors.white
-  //                         : MyColors.textMain.color,
-  //                     fontSize: 20,
-  //                   ),
-  //                 ),
-  //                 SvgPicture.asset(
-  //                   AssertUtil.iconGo,
-  //                   colorFilter: index == 0 ||
-  //                           (index == 1 &&
-  //                               ttspVM.changeCourseEnum.value ==
-  //                                   ChangeCourseEnum.on)
-  //                       ? const ColorFilter.mode(Colors.white, BlendMode.srcIn)
-  //                       : null,
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     ).toList(),
-
-  //     buildDraggableFeedback: (context, constraints, child) {
-  //       final width = constraints.maxWidth;
-  //       final height = constraints.maxHeight;
-  //       // 调用振动反馈
-  //       HapticFeedback.heavyImpact();
-
-  //       return AnimatedContainer(
-  //         duration: const Duration(seconds: 1),
-  //         curve: Curves.easeInOut,
-  //         transform: Matrix4.identity()
-  //           ..translate(width / 2, height / 2)
-  //           ..scale(1.04)
-  //           ..translate(-width / 2, -height / 2),
-  //         alignment: Alignment.center,
-  //         decoration: BoxDecoration(
-  //           boxShadow: [
-  //             BoxShadow(
-  //               color: Colors.grey.withOpacity(0.2),
-  //               spreadRadius: 6, // 扩散范围
-  //               blurRadius: 20, // 模糊程度
-  //               offset: const Offset(0, -6),
-  //             ),
-  //           ],
-  //         ),
-  //         child: Material(
-  //           color: Colors.transparent,
-  //           child: Container(
-  //             constraints: constraints,
-  //             child: child,
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //     onReorder: (oldIndex, newIndex) =>
-  //         controller.reorderCourse(oldIndex, newIndex),
-  //   ),
-  // );
 }
 
 class MyCoursePage extends GetView<MyCoursePageViewModel> {
@@ -425,8 +251,6 @@ class MyCoursePage extends GetView<MyCoursePageViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    var stateHeight = context.mediaQueryPadding.top;
-
     return Scaffold(
       body: CustomBody(
         scroller: true,

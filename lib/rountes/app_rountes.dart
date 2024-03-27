@@ -5,8 +5,6 @@ import 'package:wejinda/net/impl/user_info_api_impl.dart';
 import 'package:wejinda/repository/account/account_data_impl.dart';
 import 'package:wejinda/repository/account/account_data_service.dart';
 import 'package:wejinda/repository/course/course_data_service.dart';
-import 'package:wejinda/repository/url/base_url_impl.dart';
-import 'package:wejinda/repository/url/base_url_service.dart';
 import 'package:wejinda/rountes/middleware.dart';
 import 'package:wejinda/utils/page_path_util.dart';
 import 'package:wejinda/viewmodel/about_wejinda/about_wejinda_page_vm.dart';
@@ -56,8 +54,6 @@ import 'package:wejinda/views/timetable/my_course_page.dart';
 import 'package:wejinda/views/timetable/setting_page.dart';
 import 'package:wejinda/views/webview/web_doc_page.dart';
 
-import '../net/api/app_info_api.dart';
-import '../net/impl/app_info_api_impl.dart';
 import '../repository/course/course_data_impl.dart';
 import '../net/api/jww_api.dart';
 import '../viewmodel/main/bnp_vm.dart';
@@ -76,16 +72,12 @@ class AppRountes {
       middlewares: [UserLoginMw()],
       binding: BindingsBuilder(
         () {
-          Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
           Get.lazyPut(() => BottomNavViewModel());
           Get.lazyPut(() => TimeTableViewModel());
           Get.lazyPut<CourseDataService>(() => CourseDataImpl());
           Get.lazyPut<AccountDataService>(() => AccountDataImpl());
           Get.lazyPut(() => SchoolPageViewModel());
           Get.lazyPut(() => UserPageViewModel());
-          // app信息请求API
-          Get.lazyPut<AppInfoApi>(() => AppInfoApiImpl());
-          Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         },
       ),
     ),
@@ -244,8 +236,6 @@ class AppRountes {
       name: PagePathUtil.userLoginPage,
       page: () => const UserLoginPage(),
       binding: BindingsBuilder(() {
-        Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
-        Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         Get.lazyPut(() => UserLoginPageViewModel());
       }),
       transition: Transition.noTransition,
@@ -311,7 +301,6 @@ class AppRountes {
         name: PagePathUtil.editBaseUrlPage,
         page: () => const BaseUrlPage(),
         binding: BindingsBuilder((() {
-          Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
           Get.lazyPut<BaseUrlPageViewModel>(() => BaseUrlPageViewModel());
         }))),
   ];

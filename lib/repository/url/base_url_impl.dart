@@ -5,8 +5,12 @@ import '../../utils/storage_util.dart';
 class BaseUrlImpl implements BaseUrlService {
   @override
   String getURL() {
-    final baseUrl = GetStorageUtil.readData("BaseUrl");
-    return baseUrl ?? "https://singlestep.cn/wejinda";
+    var baseUrl = GetStorageUtil.readData("BaseUrl");
+
+    if (baseUrl == null || baseUrl == "") {
+      baseUrl = "https://singlestep.cn/wejinda";
+    }
+    return baseUrl;
   }
 
   @override

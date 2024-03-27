@@ -4,14 +4,10 @@ import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/utils/net_uitl.dart';
 
 import '../../net/api/user_info_api.dart';
-import '../../repository/account/account_data_service.dart';
 import '../../utils/page_path_util.dart';
-import 'user_page_vm.dart';
 
 class UserLoginPageViewModel extends GetxController {
   final userInfoApi = Get.find<UserInfoApi>();
-  final userVm = Get.find<UserPageViewModel>();
-  final accountDataService = Get.find<AccountDataService>();
 
   var email = ''.obs; // 邮箱
   var password = ''.obs; // 密码

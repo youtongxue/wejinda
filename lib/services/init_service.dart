@@ -3,8 +3,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:wejinda/net/base/base_api.dart';
+import 'package:wejinda/repository/url/base_url_impl.dart';
+import 'package:wejinda/repository/url/base_url_service.dart';
 
+import '../net/api/app_info_api.dart';
 import '../net/api/user_info_api.dart';
+import '../net/impl/app_info_api_impl.dart';
 import '../net/impl/user_info_api_impl.dart';
 import '../repository/account/account_data_impl.dart';
 import '../repository/account/account_data_service.dart';
@@ -27,11 +31,12 @@ class InitService {
     debugPrint("初始化日期格式化信息 完成✅");
 
     // 初始化用户信息ViewModel
-    //Get.lazyPut(() => BaseApiService());
+    Get.put<BaseUrlService>(BaseUrlImpl());
     Get.put(BaseApiService());
+    Get.put<UserInfoApi>(UserInfoApiImpl());
+    Get.put<AppInfoApi>(AppInfoApiImpl());
     Get.lazyPut<AccountDataService>(() => AccountDataImpl());
     Get.lazyPut(() => UserPageViewModel(), fenix: true);
-    Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
 
     debugPrint('< < <   全局初始化 end...   > > >');
   }

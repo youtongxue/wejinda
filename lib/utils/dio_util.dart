@@ -21,7 +21,7 @@ class DioUtil {
 
   // dio初始化配置 https://github.com/cfug/dio/blob/main/dio/README-ZH.md -> 【请求配置】
   DioUtil._ableBaseUrl() {
-    debugPrint("初始化Dio, 带BASE_URL");
+    debugPrint("初始化Dio, 带BASE_URL > > > ${ApiPathUtil.getSpringBootBaseUrl()}");
     _baseOptions = BaseOptions(
         //baseUrl: ApiPathUtil.springBootBaseUrl,
         baseUrl: ApiPathUtil.getSpringBootBaseUrl(),

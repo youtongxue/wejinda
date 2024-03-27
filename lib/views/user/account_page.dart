@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/components/appbar/normal_appbar.dart';
 import 'package:wejinda/components/container/custom_container.dart';
-import 'package:wejinda/components/notification/custom_notification.dart';
 import 'package:wejinda/components/view/custom_body.dart';
 import 'package:wejinda/enumm/color_enum.dart';
 import 'package:wejinda/utils/page_path_util.dart';

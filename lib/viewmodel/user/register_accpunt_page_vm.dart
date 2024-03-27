@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:extended_image/extended_image.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:wejinda/bean/to/user/app_user_dto.dart';
-import 'package:wejinda/bean/to/user/other_account.dart';
 import 'package:wejinda/components/input/custom_bottom_sheet_picker.dart';
 import 'package:wejinda/components/view/custom_bottom_sheet.dart';
 import 'package:wejinda/manager/app_user_info_manager.dart';
@@ -21,7 +19,6 @@ import 'package:wejinda/views/test/update_img_page.dart';
 
 import '../../components/input/custom_autoscroller_picker.dart';
 import '../../components/keep_alive_wrapper.dart';
-import '../../enumm/storage_key_enum.dart';
 import '../../repository/account/account_data_service.dart';
 import '../../utils/assert_util.dart';
 import '../../views/test/_image_picker_io.dart';

@@ -4,9 +4,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/repository/url/base_url_service.dart';
 
-import '../../net/base/base_api.dart';
-import '../../utils/dio_util.dart';
-
 class BaseUrlPageViewModel extends GetxController {
   final baseUrlService = Get.find<BaseUrlService>();
 

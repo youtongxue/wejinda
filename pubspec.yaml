@@ -33,7 +33,7 @@ dependencies:
   # GetX(状态管理) https://pub.dev/packages/get/install
   get: ^4.6.6
   # Dio(网络请求) https://pub.dev/packages/dio
-  dio: ^5.4.0
+  dio: ^5.4.2
   #  SharedPreferences(本地轻量化存储) https://pub.dev/packages/shared_preferences
   # shared_preferences: ^2.0.17
   # 本地存储 https://pub.dev/packages/get_storage/install
@@ -48,7 +48,7 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   # Item 左右滑动显示菜单
-  flutter_slidable: ^3.0.0
+  flutter_slidable: ^3.1.0
   # 拖动排序
   reorderables: ^0.6.0
   # 对象比较
@@ -56,7 +56,7 @@ dependencies:
   # SVG 显示
   flutter_svg: ^2.0.5
   # 日期格式化
-  intl: ^0.18.1
+  intl: ^0.19.0
   # 文字滚动
   marquee: ^2.2.3
   # swiper
@@ -68,7 +68,7 @@ dependencies:
   # Dialog
   flutter_smart_dialog: ^4.9.2
   # 权限申请
-  permission_handler: ^11.3.0
+  permission_handler: ^11.3.1
   # 键盘监听
   # flutter_keyboard_visibility: ^6.0.0
   # 选择图片
@@ -76,7 +76,7 @@ dependencies:
   # wechat_assets_picker: ^9.0.0
   # extended_image: ^8.2.0
   image: ^4.1.7
-  image_editor: ^1.3.0
+  image_editor: ^1.4.0
   # 获取端侧文件路径
   # path_provider: ^2.1.1
   # http contentType

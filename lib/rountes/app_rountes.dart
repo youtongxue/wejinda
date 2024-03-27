@@ -244,6 +244,7 @@ class AppRountes {
       name: PagePathUtil.userLoginPage,
       page: () => const UserLoginPage(),
       binding: BindingsBuilder(() {
+        Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
         Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         Get.lazyPut(() => UserLoginPageViewModel());
       }),
@@ -310,6 +311,7 @@ class AppRountes {
         name: PagePathUtil.editBaseUrlPage,
         page: () => const BaseUrlPage(),
         binding: BindingsBuilder((() {
+          Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
           Get.lazyPut<BaseUrlPageViewModel>(() => BaseUrlPageViewModel());
         }))),
   ];

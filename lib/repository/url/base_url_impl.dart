@@ -6,7 +6,7 @@ class BaseUrlImpl implements BaseUrlService {
   @override
   String getURL() {
     final baseUrl = GetStorageUtil.readData("BaseUrl");
-    return baseUrl ?? "";
+    return baseUrl ?? "https://singlestep.cn/wejinda";
   }
 
   @override

@@ -23,7 +23,8 @@ class DioUtil {
   DioUtil._ableBaseUrl() {
     debugPrint("初始化Dio, 带BASE_URL");
     _baseOptions = BaseOptions(
-        baseUrl: ApiPathUtil.springBootBaseUrl,
+        //baseUrl: ApiPathUtil.springBootBaseUrl,
+        baseUrl: ApiPathUtil.getSpringBootBaseUrl(),
         contentType: Headers.jsonContentType);
     _dio = Dio(_baseOptions);
   }
@@ -36,7 +37,8 @@ class DioUtil {
   DioUtil._loginedBaseUrl(String loginToken) {
     debugPrint("初始化Dio, 带BASE_URL、添加拦截器注入loginToken");
     _baseOptions = BaseOptions(
-        baseUrl: ApiPathUtil.springBootBaseUrl,
+        //baseUrl: ApiPathUtil.springBootBaseUrl,
+        baseUrl: ApiPathUtil.getSpringBootBaseUrl(),
         contentType: Headers.jsonContentType);
     _dio = Dio(_baseOptions);
 

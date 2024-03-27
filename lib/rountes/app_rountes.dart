@@ -5,6 +5,8 @@ import 'package:wejinda/net/impl/user_info_api_impl.dart';
 import 'package:wejinda/repository/account/account_data_impl.dart';
 import 'package:wejinda/repository/account/account_data_service.dart';
 import 'package:wejinda/repository/course/course_data_service.dart';
+import 'package:wejinda/repository/url/base_url_impl.dart';
+import 'package:wejinda/repository/url/base_url_service.dart';
 import 'package:wejinda/rountes/middleware.dart';
 import 'package:wejinda/utils/page_path_util.dart';
 import 'package:wejinda/viewmodel/about_wejinda/about_wejinda_page_vm.dart';
@@ -33,6 +35,8 @@ import 'package:wejinda/views/jww/jww_main_page.dart';
 import 'package:wejinda/views/jww/jww_score_page.dart';
 import 'package:wejinda/views/lost_and_found/lost_found_main_page.dart';
 import 'package:wejinda/views/micro_campus/micro_campus_page.dart';
+import 'package:wejinda/views/url/base_url_page.dart';
+import 'package:wejinda/views/url/base_url_page_vm.dart';
 import 'package:wejinda/views/user/account_page.dart';
 import 'package:wejinda/views/user/del/del_account_page.dart';
 import 'package:wejinda/views/user/del/del_account_page_vm.dart';
@@ -72,6 +76,7 @@ class AppRountes {
       middlewares: [UserLoginMw()],
       binding: BindingsBuilder(
         () {
+          Get.lazyPut<BaseUrlService>(() => BaseUrlImpl());
           Get.lazyPut(() => BottomNavViewModel());
           Get.lazyPut(() => TimeTableViewModel());
           Get.lazyPut<CourseDataService>(() => CourseDataImpl());
@@ -299,6 +304,13 @@ class AppRountes {
         page: () => const DelAccountPage(),
         binding: BindingsBuilder((() {
           Get.lazyPut<DelAccountPageViewModel>(() => DelAccountPageViewModel());
+        }))),
+    // 修改BaseUrl界面
+    GetPage(
+        name: PagePathUtil.editBaseUrlPage,
+        page: () => const BaseUrlPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<BaseUrlPageViewModel>(() => BaseUrlPageViewModel());
         }))),
   ];
 }

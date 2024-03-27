@@ -10,8 +10,10 @@ import 'package:wejinda/bean/to/user/app_user_dto.dart';
 import 'package:wejinda/bean/to/user/other_account.dart';
 import 'package:wejinda/components/input/custom_bottom_sheet_picker.dart';
 import 'package:wejinda/components/view/custom_bottom_sheet.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/net/api/user_info_api.dart';
 import 'package:wejinda/utils/net_uitl.dart';
+import 'package:wejinda/utils/page_path_util.dart';
 import 'package:wejinda/utils/static_date_util.dart';
 import 'package:wejinda/utils/text_util.dart';
 import 'package:wejinda/views/user/register_account_page.dart';
@@ -22,7 +24,6 @@ import '../../components/keep_alive_wrapper.dart';
 import '../../enumm/storage_key_enum.dart';
 import '../../repository/account/account_data_service.dart';
 import '../../utils/assert_util.dart';
-import '../../utils/page_path_util.dart';
 import '../../views/test/_image_picker_io.dart';
 import 'user_page_vm.dart';
 
@@ -36,6 +37,7 @@ class RegisterAccountPageViewModel extends GetxController {
   final genderEditTextController = TextEditingController();
   final majorEditTextController = TextEditingController();
   // 定义观察变量
+  var showbackIcon = false.obs;
   var iconBack = AssertUtil.iconBack.obs;
   var title = "账号注册".obs;
   var nickName = ''.obs; // 昵称
@@ -118,9 +120,7 @@ class RegisterAccountPageViewModel extends GetxController {
   /// 登陆第三步
   void registerThird() async {
     // 注册完成，路由到登陆Page
-    if (verifCode.value.isEmpty) {
-      return;
-    }
+    if (verifCode.value.isEmpty) return;
 
     // 上传用户头像
     await uploadUserAvatarImg();
@@ -130,12 +130,14 @@ class RegisterAccountPageViewModel extends GetxController {
   /// 当注册步骤不为第一步时，返回Button不是关闭此页面，而是滑动到上一个Pager
   void customBack() {
     final currentPage = pageController.page;
-    if (currentPage != 0 && currentPage != (pagerList.length - 2)) {
-      pageController.animateToPage((currentPage! - 1.0).floor(),
-          duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    } else {
-      Get.back();
-    }
+    // if (currentPage != 0 && currentPage != (pagerList.length - 2)) {
+    //   pageController.animateToPage((currentPage! - 1.0).floor(),
+    //       duration: const Duration(milliseconds: 500), curve: Curves.ease);
+    // } else {
+    //   Get.back();
+    // }
+    pageController.animateToPage((currentPage! - 1.0).floor(),
+        duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
   /// 选择图片
@@ -156,17 +158,21 @@ class RegisterAccountPageViewModel extends GetxController {
 
   /// 选择性别弹窗
   void choseGender(BuildContext context) {
-    showMyBottomSheet(context,
-        showChild: CustomBottomSheetPicker(
-          title: "性别",
-          firstList: StaticDateUtil.sexList,
-          firstListDefaultSelect:
-              StaticDateUtil.sexList.indexOf(genderEditTextController.text),
-          enter: (allSelectIndex) {
-            genderEditTextController.text =
-                StaticDateUtil.sexList[allSelectIndex[0]];
-          },
-        ));
+    showMyBottomSheet(
+      context,
+      showChild: CustomBottomSheetPicker(
+        title: "性别",
+        firstList: StaticDateUtil.sexList,
+        firstListDefaultSelect: StaticDateUtil.sexList.indexOf(
+            genderEditTextController.text.isEmpty
+                ? '保密'
+                : genderEditTextController.text),
+        enter: (allSelectIndex) {
+          genderEditTextController.text =
+              StaticDateUtil.sexList[allSelectIndex[0]];
+        },
+      ),
+    );
   }
 
   /// 选择专业弹窗
@@ -230,6 +236,11 @@ class RegisterAccountPageViewModel extends GetxController {
 
   /// 设置 TitleBar
   void setTitleBar(int currentPageIndex) {
+    if (currentPageIndex == 0 || currentPageIndex == 3) {
+      showbackIcon.value = false;
+    } else {
+      showbackIcon.value = true;
+    }
     iconBack.value = iconBackList[currentPageIndex];
     title.value = titleList[currentPageIndex];
   }
@@ -261,36 +272,15 @@ class RegisterAccountPageViewModel extends GetxController {
     NetUtil.request(
       netFun: userInfoApi.userRegister(verifCode.value, appUserDTO),
       onDataSuccess: (rightData) async {
-        await autoLogin();
+        pageController.animateToPage(3,
+            duration: const Duration(milliseconds: 500), curve: Curves.ease);
       },
     );
   }
 
-  Future<void> autoLogin() async {
-    NetUtil.request(
-      netFun: userInfoApi.userLogin(email.value, password.value),
-      onDataSuccess: (rightData) async {
-        pageController.animateToPage(3,
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-
-        final appUserLoginedDTO = AppUserDTO.fromJson(rightData);
-        // 更新登陆状态
-        userVm.loginInit(appUserLoginedDTO);
-        // 本地存储用户账号、密码信息
-        accountDataService.saveAccount(AccountStorageKeyEnum.appUser,
-            appUserLoginedDTO.email, password.value); // 这里密码需要存储真实密码
-        // 同步教务网密码到本地
-        final loginedOtherAccountList = appUserLoginedDTO.otherAccount;
-        for (var i = 0; i < loginedOtherAccountList.length; i++) {
-          if (loginedOtherAccountList[i].otherAccountEnum ==
-              OtherAccountEnum.jww.type) {
-            accountDataService.saveAccount(
-                AccountStorageKeyEnum.jww,
-                loginedOtherAccountList[i].username,
-                loginedOtherAccountList[i].password);
-          }
-        }
-      },
-    );
+  /// 自动登陆
+  void autoLogin() async {
+    await AppUserInfoManager().appUserLogin(email.value, password.value);
+    Get.offAllNamed(PagePathUtil.bottomNavPage);
   }
 }

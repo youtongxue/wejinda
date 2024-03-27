@@ -3,6 +3,7 @@ import 'package:wejinda/bean/to/user/app_user_dto.dart';
 import 'package:wejinda/net/api/user_info_api.dart';
 import 'package:wejinda/net/base/base_api.dart';
 import 'package:wejinda/utils/api_path_util.dart';
+import 'package:wejinda/views/user/password/update_password_dto.dart';
 
 class UserInfoApiImpl implements UserInfoApi {
   @override
@@ -54,18 +55,6 @@ class UserInfoApiImpl implements UserInfoApi {
   }
 
   @override
-  userLogout() {
-    // TODO: implement userLogout
-    throw UnimplementedError();
-  }
-
-  @override
-  userLogoutCode() {
-    // TODO: implement userLogoutCode
-    throw UnimplementedError();
-  }
-
-  @override
   userUpdate(AppUserDTO appUserDTO) {
     return BaseApiService.ableBaseUrlDio
         .post(ApiPathUtil.userUpdate, data: appUserDTO);
@@ -81,5 +70,39 @@ class UserInfoApiImpl implements UserInfoApi {
       ApiPathUtil.getUserAvatarByEmail,
       queryParameters: query,
     );
+  }
+
+  @override
+  sendUpdatePasswordCode(String email) {
+    final query = {
+      "email": email,
+    };
+    return BaseApiService.ableBaseUrlDio.get(
+      ApiPathUtil.userUpdatePasswordCode,
+      queryParameters: query,
+    );
+  }
+
+  @override
+  updatePassword(UpdatePasswordDto updatePasswordDto) {
+    return BaseApiService.ableBaseUrlDio
+        .post(ApiPathUtil.userUpdatePassword, data: updatePasswordDto);
+  }
+
+  @override
+  delAccount(String verifyCode) {
+    final query = {
+      "verifyCode": verifyCode,
+    };
+
+    return BaseApiService.ableBaseUrlDio.post(
+      ApiPathUtil.delAccount,
+      queryParameters: query,
+    );
+  }
+
+  @override
+  sendDelAccountCode() {
+    return BaseApiService.ableBaseUrlDio.get(ApiPathUtil.delAccountVerifyCode);
   }
 }

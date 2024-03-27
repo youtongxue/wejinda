@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/utils/net_uitl.dart';
 
 import '../../bean/to/user/app_user_dto.dart';
@@ -39,10 +40,8 @@ class UserLoginPageViewModel extends GetxController {
     }
   }
 
-  /*
-   * 用户登陆 
-   */
-  void userLogin() {
+  /// 用户登陆
+  void userLogin() async {
     if (email.isEmpty ||
         password.value.isEmpty ||
         checkboxSelected.value == false) {
@@ -54,27 +53,9 @@ class UserLoginPageViewModel extends GetxController {
       return;
     }
 
-    NetUtil.request(
-      netFun: userInfoApi.userLogin(email.value, password.value),
-      onDataSuccess: (rightData) async {
-        final appUserLoginRec = AppUserDTO.fromJson(rightData);
-
-        // 更新登陆状态
-        userVm.loginInit(appUserLoginRec);
-
-        // 本地存储用户账号、密码信息
-        accountDataService.saveAccount(AccountStorageKeyEnum.appUser,
-            appUserLoginRec.email, password.value); // 这里密码需要存储真实密码
-
-        // 如果第一次进入，为登陆则上级路由为空
-        debugPrint("上级路由: ${Get.routing.previous}");
-        if (Get.routing.previous.isEmpty ||
-            Get.routing.previous == PagePathUtil.registerAccountPage) {
-          Get.toNamed(PagePathUtil.bottomNavPage);
-        } else {
-          Get.back();
-        }
-      },
-    );
+    await AppUserInfoManager().appUserLogin(email.value, password.value);
+    if (AppUserInfoManager().isLogined()) {
+      Get.offAndToNamed(PagePathUtil.bottomNavPage);
+    }
   }
 }

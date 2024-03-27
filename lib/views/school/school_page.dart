@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:wejinda/bean/vo/schoolpage/school_fun.dart';
 import 'package:wejinda/enumm/color_enum.dart';
 import 'package:wejinda/enumm/nav_enum.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/viewmodel/schoolpage/school_page_vm.dart';
 import 'package:wejinda/viewmodel/timetable/timetable_vm.dart';
 
@@ -316,13 +317,15 @@ Widget _customAppBar(BuildContext context, SchoolPageViewModel controller) {
                 width: 36,
                 height: 36,
                 child: Obx(
-                  () => (controller.userPageViewModel.isLogin() &&
-                          controller.userPageViewModel.loginedAppUserDTO.value!
-                              .userImg.isNotEmpty)
+                  () => (AppUserInfoManager().isLogined() &&
+                          AppUserInfoManager()
+                              .appUserDTO
+                              .value!
+                              .userImg
+                              .isNotEmpty)
                       ? ClipOval(
                           child: ExtendedImage.network(
-                            controller.userPageViewModel.loginedAppUserDTO
-                                .value!.userImg,
+                            AppUserInfoManager().appUserDTO.value!.userImg,
                             fit: BoxFit.contain,
                             cache: true,
                             //mode: ExtendedImageMode.editor,

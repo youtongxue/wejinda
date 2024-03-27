@@ -29,7 +29,8 @@ class RegisterAccountPage extends GetView<RegisterAccountPageViewModel> {
       body: CustomBody(
         appBar: Obx(
           () => NormalAppBar(
-            iconBack: controller.iconBack.value,
+            showBackIcon: controller.showbackIcon.value,
+            //iconBack: controller,
             title: Text(
               controller.title.value,
               style: const TextStyle(fontWeight: FontWeight.bold),
@@ -459,7 +460,7 @@ class RegisterAccountDone extends GetView<RegisterAccountPageViewModel> {
                 scaleValue: 0.95,
                 duration: const Duration(milliseconds: 160),
                 onTap: () {
-                  Get.back();
+                  controller.autoLogin();
                 },
                 child: Container(
                   alignment: Alignment.center,

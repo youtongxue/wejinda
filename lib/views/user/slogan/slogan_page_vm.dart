@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 
 import '../../../bean/to/user/app_user_dto.dart';
 import '../../../net/api/user_info_api.dart';
@@ -15,7 +16,9 @@ class SloganPageViewModel extends GetxController {
   String sloganTemp = '';
 
   void updateSlogan() {
-    final newAppUserDTO = userModel.loginedAppUserDTO.value!
+    final newAppUserDTO = AppUserInfoManager()
+        .appUserDTO
+        .value!
         .copyWith(introduction: sloganController.text);
 
     NetUtil.request(
@@ -23,7 +26,7 @@ class SloganPageViewModel extends GetxController {
       onDataSuccess: (rightData) async {
         final newAppUserDTO = AppUserDTO.fromJson(rightData);
         SmartDialog.showToast('修改成功!');
-        userModel.loginedAppUserDTO.value = newAppUserDTO;
+        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
         Get.back();
       },
     );
@@ -33,7 +36,7 @@ class SloganPageViewModel extends GetxController {
   void onInit() {
     super.onInit();
 
-    sloganTemp = userModel.loginedAppUserDTO.value?.introduction ?? '';
+    sloganTemp = AppUserInfoManager().appUserDTO.value?.introduction ?? '';
     sloganController.text = sloganTemp;
   }
 }

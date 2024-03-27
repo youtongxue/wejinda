@@ -34,8 +34,14 @@ import 'package:wejinda/views/jww/jww_score_page.dart';
 import 'package:wejinda/views/lost_and_found/lost_found_main_page.dart';
 import 'package:wejinda/views/micro_campus/micro_campus_page.dart';
 import 'package:wejinda/views/user/account_page.dart';
+import 'package:wejinda/views/user/del/del_account_page.dart';
+import 'package:wejinda/views/user/del/del_account_page_vm.dart';
 import 'package:wejinda/views/user/nickname/nickname_page.dart';
 import 'package:wejinda/views/user/nickname/nickname_page_vm.dart';
+import 'package:wejinda/views/user/password/update_password_page.dart';
+import 'package:wejinda/views/user/password/update_password_page_vm.dart';
+import 'package:wejinda/views/user/password/update_password_verify_page.dart';
+import 'package:wejinda/views/user/password/update_password_verify_page_vm.dart';
 import 'package:wejinda/views/user/slogan/slogan_page.dart';
 import 'package:wejinda/views/user/slogan/slogan_page_vm.dart';
 import 'package:wejinda/views/user/student_id/student_id_page.dart';
@@ -74,6 +80,7 @@ class AppRountes {
           Get.lazyPut(() => UserPageViewModel());
           // app信息请求API
           Get.lazyPut<AppInfoApi>(() => AppInfoApiImpl());
+          Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         },
       ),
     ),
@@ -183,6 +190,7 @@ class AppRountes {
         page: () => const AccountPage(),
         binding: BindingsBuilder(
           () {
+            Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
             Get.lazyPut(() => AccountPageViewModel());
           },
         )),
@@ -267,6 +275,30 @@ class AppRountes {
         page: () => const StudentIdPage(),
         binding: BindingsBuilder((() {
           Get.lazyPut<StudentIdPageViewModel>(() => StudentIdPageViewModel());
+        }))),
+
+    // 修改密码发送验证码界面
+    GetPage(
+        name: PagePathUtil.updatePasswordVerifyCodePage,
+        page: () => const UpdatePasswordVerifyPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<UpdatePasswordVerifyPageViewModel>(
+              () => UpdatePasswordVerifyPageViewModel());
+        }))),
+    // 编辑学号界面
+    GetPage(
+        name: PagePathUtil.updatePasswordPage,
+        page: () => const UpdatePasswordPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<UpdatePasswordPageViewModel>(
+              () => UpdatePasswordPageViewModel());
+        }))),
+    // 注销账号界面
+    GetPage(
+        name: PagePathUtil.delAccountPage,
+        page: () => const DelAccountPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<DelAccountPageViewModel>(() => DelAccountPageViewModel());
         }))),
   ];
 }

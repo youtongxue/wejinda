@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../enumm/color_enum.dart';
@@ -74,39 +75,45 @@ class CustomBottomSheetPicker extends StatelessWidget {
                     // item1List
                     firstList != null
                         ? Expanded(
-                            child: CupertinoPicker(
-                              magnification: 1.1,
-                              //squeeze: 1.36,
-                              squeeze: 0.9,
-                              //diameterRatio: 0.2,
-                              useMagnifier: true,
-                              itemExtent: 26,
-                              scrollController:
-                                  controller.firstScrollerController,
-                              // This is called when selected item is changed.
-                              onSelectedItemChanged: (int selectedItem) {
-                                debugPrint("第一项: > > > $selectedItem");
-                                controller.scrollerFirstList(selectedItem);
-                              },
-                              selectionOverlay: Container(
-                                height: 26,
-                                color: Colors.transparent,
+                            child: Theme(
+                              data: ThemeData(
+                                platform: TargetPlatform.android,
                               ),
-                              children: List<Widget>.generate(
-                                firstList!.length,
-                                (int index) {
-                                  return Center(
-                                    child: Text(
-                                      firstList![index].toString(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: controller.firstSelected == index
-                                            ? MyColors.textMain.color
-                                            : MyColors.textSecond.color,
-                                      ),
-                                    ),
-                                  );
+                              child: CupertinoPicker(
+                                magnification: 1.1,
+                                //squeeze: 1.36,
+                                squeeze: 0.9,
+                                //diameterRatio: 0.2,
+                                useMagnifier: true,
+                                itemExtent: 26,
+                                scrollController:
+                                    controller.firstScrollerController,
+                                // This is called when selected item is changed.
+                                onSelectedItemChanged: (int selectedItem) {
+                                  debugPrint("第一项: > > > $selectedItem");
+                                  controller.scrollerFirstList(selectedItem);
                                 },
+                                selectionOverlay: Container(
+                                  height: 26,
+                                  color: Colors.transparent,
+                                ),
+                                children: List<Widget>.generate(
+                                  firstList!.length,
+                                  (int index) {
+                                    return Center(
+                                      child: Text(
+                                        firstList![index].toString(),
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color:
+                                              controller.firstSelected == index
+                                                  ? MyColors.textMain.color
+                                                  : MyColors.textSecond.color,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           )
@@ -271,6 +278,8 @@ class CustomBottomSheetPickerController extends GetxController {
   int secondListDefaultSelect;
   int thirdListDefaultSelect;
 
+  bool firstShow = true;
+
   CustomBottomSheetPickerController({
     this.firstListDefaultSelect = 0,
     this.secondListDefaultSelect = 0,
@@ -296,6 +305,7 @@ class CustomBottomSheetPickerController extends GetxController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       debugPrint("第二列更新后执行");
       thirdScrollerController.jumpToItem(thirdListDefaultSelect);
+      firstShow = false;
     });
   }
 
@@ -304,6 +314,8 @@ class CustomBottomSheetPickerController extends GetxController {
     firstSelected = selectedItem;
     secondScrollerController.animateToItem(0,
         duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+    // 设置了默认选中项则不触发振动效果
+    if (!firstShow) HapticFeedback.selectionClick();
     update();
   }
 
@@ -311,11 +323,15 @@ class CustomBottomSheetPickerController extends GetxController {
     secondSelected = selectedItem;
     thirdScrollerController.animateToItem(0,
         duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+    // 设置了默认选中项则不触发振动效果
+    if (!firstShow) HapticFeedback.selectionClick();
     update();
   }
 
   void scrollerThirdList(int selectedItem) {
     thirdSelected = selectedItem;
+    // 设置了默认选中项则不触发振动效果
+    if (!firstShow) HapticFeedback.selectionClick();
     update();
   }
 

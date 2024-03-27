@@ -1,13 +1,17 @@
 class ApiPathUtil {
   ApiPathUtil._();
 
-  static const String springBootBaseUrl = "https://singlestep.cn/wejinda";
-  //static const String springBootBaseUrl = "http://192.168.179.5:8080/wejinda";
+  // static const String springBootBaseUrl = "https://singlestep.cn/wejinda";
+  static const String springBootBaseUrl = "http://192.168.27.5:8080/wejinda";
 
   static const String appInfo = "/app/info";
   static const String campuscardUserInfo = "/campuscard/userinfo";
 
   static const String userRegisterCode = "/user/registerCode";
+  static const String userUpdatePasswordCode = "/user/updatePasswordCode";
+  static const String delAccountVerifyCode = "/user/delCode";
+  static const String delAccount = "/user/del";
+  static const String userUpdatePassword = "/user/updatePassword";
   static const String uploadUserAvatarImg = "/upload/userAvatarImg";
   static const String userRegister = "/user/register";
   static const String userLogin = "/user/login";

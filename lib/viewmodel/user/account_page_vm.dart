@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wejinda/bean/to/user/other_account.dart';
 import 'package:wejinda/components/view/custom_bottom_sheet_msg_dialog.dart';
 import 'package:wejinda/enumm/storage_key_enum.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 
 import '../../bean/to/user/app_user_dto.dart';
 import '../../components/input/custom_autoscroller_picker.dart';
@@ -56,18 +57,18 @@ class AccountPageViewModel extends GetxController {
           title: "性别",
           firstList: StaticDateUtil.sexList,
           firstListDefaultSelect: StaticDateUtil.sexList
-              .indexOf(userModel.loginedAppUserDTO.value!.sex!),
+              .indexOf(AppUserInfoManager().appUserDTO.value!.sex!),
           enter: (allSelectIndex) {
             final newSex = StaticDateUtil.sexList[allSelectIndex[0]];
             final newAppUserDTO =
-                userModel.loginedAppUserDTO.value!.copyWith(sex: newSex);
+                AppUserInfoManager().appUserDTO.value!.copyWith(sex: newSex);
 
             NetUtil.request(
               netFun: userInfoApi.userUpdate(newAppUserDTO),
               onDataSuccess: (rightData) async {
                 final newAppUserDTO = AppUserDTO.fromJson(rightData);
                 SmartDialog.showToast('修改成功!');
-                userModel.loginedAppUserDTO.value = newAppUserDTO;
+                AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
               },
             );
           },
@@ -78,9 +79,9 @@ class AccountPageViewModel extends GetxController {
   void choseMajor(BuildContext context) {
     int firstDefaultSelect = 0;
     int secondDefaultSelect = 0;
-    if (userModel.loginedAppUserDTO.value!.major!.isNotEmpty) {
+    if (AppUserInfoManager().appUserDTO.value!.major!.isNotEmpty) {
       final major = StaticDateUtil.findMajorIndex(
-          userModel.loginedAppUserDTO.value!.major!);
+          AppUserInfoManager().appUserDTO.value!.major!);
       if (major.length != 2) return;
 
       firstDefaultSelect = major[0];
@@ -100,15 +101,17 @@ class AccountPageViewModel extends GetxController {
             final newMajor = StaticDateUtil.majorDateList[StaticDateUtil
                 .majorDateList.keys
                 .toList()[allSelectIndex[0]]]![allSelectIndex[1]];
-            final newAppUserDTO =
-                userModel.loginedAppUserDTO.value!.copyWith(major: newMajor);
+            final newAppUserDTO = AppUserInfoManager()
+                .appUserDTO
+                .value!
+                .copyWith(major: newMajor);
 
             NetUtil.request(
               netFun: userInfoApi.userUpdate(newAppUserDTO),
               onDataSuccess: (rightData) async {
                 final newAppUserDTO = AppUserDTO.fromJson(rightData);
                 SmartDialog.showToast('修改成功!');
-                userModel.loginedAppUserDTO.value = newAppUserDTO;
+                AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
               },
             );
           }),
@@ -117,7 +120,7 @@ class AccountPageViewModel extends GetxController {
 
   Future<void> delOtherAccount(int otherAccountEnum) async {
     final loginedOtherAccountList =
-        userModel.loginedAppUserDTO.value!.otherAccount;
+        AppUserInfoManager().appUserDTO.value!.otherAccount;
     for (var i = 0; i < loginedOtherAccountList.length; i++) {
       if (loginedOtherAccountList[i].otherAccountEnum == otherAccountEnum) {
         loginedOtherAccountList.removeAt(i);
@@ -125,11 +128,11 @@ class AccountPageViewModel extends GetxController {
     }
 
     NetUtil.request(
-      netFun: userInfoApi.userUpdate(userModel.loginedAppUserDTO.value!),
+      netFun: userInfoApi.userUpdate(AppUserInfoManager().appUserDTO.value!),
       onDataSuccess: (rightData) async {
         final newAppUserDTO = AppUserDTO.fromJson(rightData);
         SmartDialog.showToast('修改成功!');
-        userModel.loginedAppUserDTO.value = newAppUserDTO;
+        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
       },
     );
   }

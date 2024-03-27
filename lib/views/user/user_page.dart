@@ -7,22 +7,23 @@ import 'package:wejinda/utils/assert_util.dart';
 import 'package:wejinda/viewmodel/user/user_page_vm.dart';
 import '../../components/view/setting_item_text.dart';
 import '../../enumm/color_enum.dart';
+import '../../manager/app_user_info_manager.dart';
 import '../../utils/page_path_util.dart';
 
 /// 用户性别图标
 Widget _sexIcon(UserPageViewModel controller) {
-  final sexValue = controller.loginedAppUserDTO.value!.sex;
-  if (sexValue!.isEmpty || sexValue == '保密') {
+  if (AppUserInfoManager().appUserDTO.value!.sex!.isEmpty ||
+      AppUserInfoManager().appUserDTO.value!.sex! == '保密') {
     return const SizedBox();
   }
-  if (controller.loginedAppUserDTO.value!.sex == '男') {
+  if (AppUserInfoManager().appUserDTO.value!.sex == '男') {
     return SvgPicture.asset(
       AssertUtil.manSvg,
       width: 26,
       height: 26,
     );
   }
-  if (controller.loginedAppUserDTO.value!.sex == '女') {
+  if (AppUserInfoManager().appUserDTO.value!.sex == '女') {
     return SvgPicture.asset(
       AssertUtil.womanSvg,
       width: 26,
@@ -50,17 +51,22 @@ Widget _userBg(BuildContext context, UserPageViewModel controller) {
             child: Stack(
               children: [
                 Obx(
-                  () => controller.isLogin()
+                  () => AppUserInfoManager().isLogined()
                       ? SizedBox(
                           height: context.height / 2.91,
                           width: context.width,
                           child: ExtendedImage.network(
-                            controller
-                                    .loginedAppUserDTO.value!.userBgImg!.isEmpty
+                            AppUserInfoManager()
+                                    .appUserDTO
+                                    .value!
+                                    .userBgImg!
+                                    .isEmpty
                                 //userbgdefault
-                                ? "https://singlestep.cn/wejinda/res/img/mybg.jpg"
-                                : controller
-                                    .loginedAppUserDTO.value!.userBgImg!,
+                                ? "https://singlestep.cn/wejinda/res/img/mybg1.jpg"
+                                : AppUserInfoManager()
+                                    .appUserDTO
+                                    .value!
+                                    .userBgImg!,
                             fit: BoxFit.cover,
                             cache: true,
                             //cancelToken: cancellationToken,
@@ -120,7 +126,7 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
                   height: 60,
                   child: ClipOval(
                     child: ExtendedImage.network(
-                      controller.loginedAppUserDTO.value!.userImg,
+                      AppUserInfoManager().appUserDTO.value!.userImg,
                       fit: BoxFit.contain,
                       //mode: ExtendedImageMode.editor,
                     ),
@@ -137,7 +143,7 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          controller.loginedAppUserDTO.value!.username,
+                          AppUserInfoManager().appUserDTO.value!.username,
                           style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -153,9 +159,15 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
                               width: 4,
                             ),
                             // 专业
-                            (controller.loginedAppUserDTO.value!.major!
+                            (AppUserInfoManager()
+                                        .appUserDTO
+                                        .value!
+                                        .major!
                                         .isNotEmpty &&
-                                    controller.loginedAppUserDTO.value!.major !=
+                                    AppUserInfoManager()
+                                            .appUserDTO
+                                            .value!
+                                            .major !=
                                         '保密')
                                 ? Container(
                                     padding: const EdgeInsets.symmetric(
@@ -165,8 +177,10 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: Text(
-                                      controller
-                                          .loginedAppUserDTO.value!.major!,
+                                      AppUserInfoManager()
+                                          .appUserDTO
+                                          .value!
+                                          .major!,
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
@@ -175,8 +189,12 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
                                   )
                                 : const SizedBox(),
 
-                            (controller.loginedAppUserDTO.value!.sex == '保密' &&
-                                    controller.loginedAppUserDTO.value!.major ==
+                            (AppUserInfoManager().appUserDTO.value!.sex ==
+                                        '保密' &&
+                                    AppUserInfoManager()
+                                            .appUserDTO
+                                            .value!
+                                            .major ==
                                         '保密')
                                 ? Container(
                                     padding: const EdgeInsets.symmetric(
@@ -218,7 +236,7 @@ Widget _userLogined(BuildContext context, UserPageViewModel controller) {
             alignment: Alignment.topLeft,
             //color: Colors.amber,
             child: Text(
-              controller.loginedAppUserDTO.value!.introduction ?? '',
+              AppUserInfoManager().appUserDTO.value!.introduction ?? '',
               maxLines: 2,
               style: const TextStyle(
                 overflow: TextOverflow.ellipsis,
@@ -294,7 +312,7 @@ class UserPage extends GetView<UserPageViewModel> {
                 physics: const AlwaysScrollableScrollPhysics(), // 这里设置滚动物理属性
                 children: [
                   // 用户信息
-                  Obx(() => controller.isLogin()
+                  Obx(() => AppUserInfoManager().isLogined()
                       ? _userLogined(context, controller)
                       : _userNotLogin(context, controller)),
 

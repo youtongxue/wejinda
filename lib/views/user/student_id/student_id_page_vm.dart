@@ -3,6 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
 import '../../../bean/to/user/app_user_dto.dart';
+import '../../../manager/app_user_info_manager.dart';
 import '../../../net/api/user_info_api.dart';
 import '../../../utils/net_uitl.dart';
 import '../../../viewmodel/user/user_page_vm.dart';
@@ -25,7 +26,9 @@ class StudentIdPageViewModel extends GetxController {
       return;
     }
 
-    final newAppUserDTO = userModel.loginedAppUserDTO.value!
+    final newAppUserDTO = AppUserInfoManager()
+        .appUserDTO
+        .value!
         .copyWith(studentNum: textController.text);
 
     NetUtil.request(
@@ -33,7 +36,7 @@ class StudentIdPageViewModel extends GetxController {
       onDataSuccess: (rightData) async {
         final newAppUserDTO = AppUserDTO.fromJson(rightData);
         SmartDialog.showToast('修改成功!');
-        userModel.loginedAppUserDTO.value = newAppUserDTO;
+        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
         Get.back();
       },
     );
@@ -43,7 +46,7 @@ class StudentIdPageViewModel extends GetxController {
   void onInit() {
     super.onInit();
 
-    studentIdTemp = userModel.loginedAppUserDTO.value?.studentNum ?? '';
+    studentIdTemp = AppUserInfoManager().appUserDTO.value?.studentNum ?? '';
     textController.text = studentIdTemp;
 
     textController.addListener(() {

@@ -1,7 +1,7 @@
 class AppInfoUtil {
   AppInfoUtil._();
 
-  static String appVersion = '1.0.9';
+  static String appVersion = '1.10.0';
 
   static bool isNewerVersion(String oldVersion, String newVersion) {
     List<String> oldVersionParts = oldVersion.split('.');

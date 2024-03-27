@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/bean/to/user/app_user_dto.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 
 import '../../../net/api/user_info_api.dart';
 import '../../../utils/net_uitl.dart';
@@ -20,7 +21,9 @@ class NicknamePageViewModel extends GetxController {
 
   void updateNickname() {
     if (errorInfo.value.isEmpty) {
-      final newAppUserDTO = userModel.loginedAppUserDTO.value!
+      final newAppUserDTO = AppUserInfoManager()
+          .appUserDTO
+          .value!
           .copyWith(username: textController.text);
 
       NetUtil.request(
@@ -28,7 +31,7 @@ class NicknamePageViewModel extends GetxController {
         onDataSuccess: (rightData) async {
           final newAppUserDTO = AppUserDTO.fromJson(rightData);
           SmartDialog.showToast('修改成功!');
-          userModel.loginedAppUserDTO.value = newAppUserDTO;
+          AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
           Get.back();
         },
       );
@@ -39,7 +42,7 @@ class NicknamePageViewModel extends GetxController {
   void onInit() {
     super.onInit();
 
-    nicknameTemp = userModel.loginedAppUserDTO.value?.username ?? '';
+    nicknameTemp = AppUserInfoManager().appUserDTO.value?.username ?? '';
     textController.text = nicknameTemp;
 
     textController.addListener(() {

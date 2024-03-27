@@ -39,4 +39,10 @@ class PagePathUtil {
   static const sloganPage = '/sloganPage';
   // 编辑学号
   static const studentIdPage = '/studentIdPage';
+  // 修改密码发送验证码界面
+  static const updatePasswordVerifyCodePage = '/updatePasswordVerifyCodePage';
+  // 修改密码
+  static const updatePasswordPage = '/updatePasswordPage';
+  // 修改密码
+  static const delAccountPage = '/delAccountPage';
 }

@@ -271,13 +271,15 @@ class MyCoursePage extends GetView<MyCoursePageViewModel> {
             },
           ),
         ),
-        body: SizedBox(
-          height: context.height -
-              context.mediaQueryPadding.top -
-              context.mediaQueryPadding.bottom -
-              AppBarOptions.hight50.height,
-          width: context.width,
-          child: _courseList(context),
+        body: SafeArea(
+          child: SizedBox(
+            height: context.height -
+                context.mediaQueryPadding.top -
+                context.mediaQueryPadding.bottom -
+                AppBarOptions.hight50.height,
+            width: context.width,
+            child: _courseList(context),
+          ),
         ),
       ),
     );

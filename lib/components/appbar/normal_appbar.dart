@@ -15,6 +15,7 @@ class NormalAppBar extends StatelessWidget {
   final Widget? child;
   final VoidCallback? onTapBack;
   final Widget? rightIcon;
+  final bool showBackIcon;
   final String? iconBack;
 
   const NormalAppBar({
@@ -27,6 +28,7 @@ class NormalAppBar extends StatelessWidget {
     this.onTapBack,
     this.rightIcon,
     this.iconBack = AssertUtil.iconBack,
+    this.showBackIcon = true,
   });
 
   @override
@@ -45,35 +47,22 @@ class NormalAppBar extends StatelessWidget {
       child: Stack(
         children: [
           // 左侧返回 Icon
-          Positioned(
-            left: 0,
-            child: CustomIconButton(
-              iconBack!,
-              backgroundHeight: AppBarOptions.hight50.height,
-              backgroundWidth: AppBarOptions.hight50.height,
-              padding: const EdgeInsets.only(left: 16),
-              alignment: Alignment.centerLeft,
-              //padding: const EdgeInsets.only(left: 12),
-              onTap: () {
-                onTapBack != null ? onTapBack!() : Get.back();
-              },
-            ),
-          ),
-
-          // Back Icon 使用 IconButton会有自带的padding和margin无法精准布局
-          // IconButton(
-          //   padding: const ,
-          //   onPressed: () {
-          //     Get.back();
-          //     // 触发点击返回Icon回调函数
-          //     onTapBack!();
-          //   },
-          //   icon: SvgPicture.asset(
-          //     AssertUtil.iconBack,
-          //     width: 20,
-          //     height: 20,
-          //   ),
-          // ),
+          showBackIcon
+              ? Positioned(
+                  left: 0,
+                  child: CustomIconButton(
+                    iconBack!,
+                    backgroundHeight: AppBarOptions.hight50.height,
+                    backgroundWidth: AppBarOptions.hight50.height,
+                    padding: const EdgeInsets.only(left: 16),
+                    alignment: Alignment.centerLeft,
+                    //padding: const EdgeInsets.only(left: 12),
+                    onTap: () {
+                      onTapBack != null ? onTapBack!() : Get.back();
+                    },
+                  ),
+                )
+              : const SizedBox(),
 
           // 居中标题
           Align(

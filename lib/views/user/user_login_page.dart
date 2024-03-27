@@ -25,7 +25,9 @@ class UserLoginPage extends GetView<UserLoginPageViewModel> {
       body: CustomBody(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         appBar: const NormalAppBar(
-            title: Text("登陆账号", style: TextStyle(fontWeight: FontWeight.bold))),
+          title: Text("登陆账号", style: TextStyle(fontWeight: FontWeight.bold)),
+          showBackIcon: false,
+        ),
         body: Column(
           children: [
             SizedBox(

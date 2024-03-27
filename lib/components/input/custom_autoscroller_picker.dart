@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../enumm/color_enum.dart';
@@ -105,41 +106,46 @@ class TwoAutoScrollerPicker extends StatelessWidget {
                     ),
 
                     Expanded(
-                      child: CupertinoPicker(
-                        scrollController: controller.secondScrollerController,
-                        magnification: 1.1,
-                        //squeeze: 1.36,
-                        squeeze: 0.9,
-                        //diameterRatio: 0.2,
-                        useMagnifier: true,
-                        itemExtent: 26,
-                        onSelectedItemChanged: (int selectedItem) {
-                          debugPrint("第二列: > > > $selectedItem");
-                          controller.scrollerSecondList(selectedItem);
-                        },
-                        selectionOverlay: Container(
-                          height: 26,
-                          color: Colors.transparent,
+                      child: Theme(
+                        data: ThemeData(
+                          platform: TargetPlatform.android,
                         ),
-                        children: List<Widget>.generate(
-                          dateList.values
-                              .toList()[controller.firstSelected]
-                              .length,
-                          (int index) {
-                            return Center(
-                              child: Text(
-                                dateList.values
-                                    .toList()[controller.firstSelected][index]
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: secondFontSize,
-                                  color: controller.secondSelected == index
-                                      ? MyColors.textMain.color
-                                      : MyColors.textSecond.color,
-                                ),
-                              ),
-                            );
+                        child: CupertinoPicker(
+                          scrollController: controller.secondScrollerController,
+                          magnification: 1.1,
+                          //squeeze: 1.36,
+                          squeeze: 0.9,
+                          //diameterRatio: 0.2,
+                          useMagnifier: true,
+                          itemExtent: 26,
+                          onSelectedItemChanged: (int selectedItem) {
+                            debugPrint("第二列: > > > $selectedItem");
+                            controller.scrollerSecondList(selectedItem);
                           },
+                          selectionOverlay: Container(
+                            height: 26,
+                            color: Colors.transparent,
+                          ),
+                          children: List<Widget>.generate(
+                            dateList.values
+                                .toList()[controller.firstSelected]
+                                .length,
+                            (int index) {
+                              return Center(
+                                child: Text(
+                                  dateList.values
+                                      .toList()[controller.firstSelected][index]
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontSize: secondFontSize,
+                                    color: controller.secondSelected == index
+                                        ? MyColors.textMain.color
+                                        : MyColors.textSecond.color,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -217,12 +223,12 @@ class TwoAutoScrollerPicker extends StatelessWidget {
 }
 
 class TwoAutoScrollerPickerController extends GetxController {
-  int firstListDefaultSelect;
-  int secondListDefaultSelect;
+  int firstListDefaultSelect = 0;
+  int secondListDefaultSelect = 0;
   bool firstShow = true;
 
-  final firstScrollerController = FixedExtentScrollController();
-  final secondScrollerController = FixedExtentScrollController();
+  var firstScrollerController = FixedExtentScrollController();
+  var secondScrollerController = FixedExtentScrollController();
 
   TwoAutoScrollerPickerController({
     this.firstListDefaultSelect = 0,
@@ -233,18 +239,22 @@ class TwoAutoScrollerPickerController extends GetxController {
   var firstSelected = 0;
   var secondSelected = 0;
 
-  // 滚动列表1
+  /// 滚动列表1
   void scrollerFirstList(int selectedItem) {
     firstSelected = selectedItem;
-
+    // 滚动第一个列表，让第二个列表选中第一项
     secondScrollerController.animateToItem(0,
         duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
-
+    // 设置了默认选中项则不触发振动效果
+    if (!firstShow) HapticFeedback.selectionClick();
     update();
   }
 
+  /// 滚动列表2
   void scrollerSecondList(int selectedItem) {
     secondSelected = selectedItem;
+    // 设置了默认选中项则不触发振动效果
+    if (!firstShow) HapticFeedback.selectionClick();
     update();
   }
 
@@ -256,6 +266,7 @@ class TwoAutoScrollerPickerController extends GetxController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       debugPrint("这里的代码会在UI更新后执行");
       secondScrollerController.jumpToItem(secondListDefaultSelect);
+      firstShow = false;
     });
   }
 

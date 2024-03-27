@@ -1,7 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/viewmodel/user/user_page_vm.dart';
 
 import '../../bean/vo/schoolpage/school_card_item.dart';
 import '../../models/timetable/course_model.dart';
@@ -10,7 +9,6 @@ import '../timetable/timetable_vm.dart';
 class SchoolPageViewModel extends GetxController {
   // 依赖
   final timeTableVM = Get.find<TimeTableViewModel>();
-  final userPageViewModel = Get.find<UserPageViewModel>();
 
   // 界面
   var courseCardData = SchoolCardData.empty().obs; // 今日课程Card Model

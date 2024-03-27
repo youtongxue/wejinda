@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/components/appbar/normal_appbar.dart';
@@ -11,6 +10,7 @@ import 'package:wejinda/enumm/color_enum.dart';
 import 'package:wejinda/utils/page_path_util.dart';
 import 'package:wejinda/viewmodel/user/account_page_vm.dart';
 
+import '../../manager/app_user_info_manager.dart';
 import '../../utils/assert_util.dart';
 
 class AccountPage extends GetView<AccountPageViewModel> {
@@ -55,8 +55,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
                           height: 44,
                           child: ClipOval(
                             child: ExtendedImage.network(
-                              controller
-                                  .userModel.loginedAppUserDTO.value!.userImg,
+                              AppUserInfoManager().appUserDTO.value!.userImg,
                               fit: BoxFit.contain,
                               //mode: ExtendedImageMode.editor,
                             ),
@@ -97,8 +96,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
                         Center(
                           child: Obx(
                             () => Text(
-                              controller
-                                  .userModel.loginedAppUserDTO.value!.username,
+                              AppUserInfoManager().appUserDTO.value!.username,
                             ),
                           ),
                         ),
@@ -138,7 +136,9 @@ class AccountPage extends GetView<AccountPageViewModel> {
                           Expanded(
                             child: Obx(
                               () => Text(
-                                controller.userModel.loginedAppUserDTO.value!
+                                AppUserInfoManager()
+                                        .appUserDTO
+                                        .value!
                                         .introduction ??
                                     '',
                                 maxLines: 1,
@@ -185,8 +185,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
                         Center(
                           child: Obx(
                             () => Text(
-                              controller
-                                  .userModel.loginedAppUserDTO.value!.sex!,
+                              AppUserInfoManager().appUserDTO.value!.sex!,
                             ),
                           ),
                         ),
@@ -224,7 +223,9 @@ class AccountPage extends GetView<AccountPageViewModel> {
                         Center(
                           child: Obx(
                             () => Text(
-                              controller.userModel.loginedAppUserDTO.value!
+                              AppUserInfoManager()
+                                      .appUserDTO
+                                      .value!
                                       .studentNum ??
                                   '',
                             ),
@@ -267,8 +268,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
                         Center(
                           child: Obx(
                             () => Text(
-                              controller
-                                  .userModel.loginedAppUserDTO.value!.major!,
+                              AppUserInfoManager().appUserDTO.value!.major!,
                             ),
                           ),
                         ),
@@ -334,7 +334,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scale: false,
               onTap: () {
-                CustomNotification.toast(context, '在写了');
+                Get.toNamed(PagePathUtil.updatePasswordPage);
               },
               child: SizedBox(
                 height: 60,
@@ -362,7 +362,9 @@ class AccountPage extends GetView<AccountPageViewModel> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               duration: const Duration(milliseconds: 180),
               scale: false,
-              onTap: () {},
+              onTap: () {
+                AppUserInfoManager().signOut();
+              },
               child: SizedBox(
                 height: 60,
                 child: Row(
@@ -389,7 +391,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    CustomNotification.toast(context, 'coding 🌃');
+                    Get.toNamed(PagePathUtil.delAccountPage);
                   },
                   child: Text(
                     "注销账号",

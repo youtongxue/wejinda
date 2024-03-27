@@ -2,6 +2,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/bean/to/user/other_account.dart';
 import 'package:wejinda/enumm/storage_key_enum.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/repository/account/account_data_service.dart';
 
 import '../../bean/to/user/app_user_dto.dart';
@@ -13,12 +14,10 @@ import '../../net/api/jww_api.dart';
 import '../../net/api/user_info_api.dart';
 import '../../utils/net_uitl.dart';
 import '../../utils/page_path_util.dart';
-import '../user/user_page_vm.dart';
 
 class JwwLoginPageViewModel extends GetxController {
   // 依赖
   final userInfoApi = Get.find<UserInfoApi>();
-  final userModel = Get.find<UserPageViewModel>();
   final accountDataService = Get.find<AccountDataService>();
   final jwwApi = Get.find<JwwApi>();
 
@@ -85,12 +84,14 @@ class JwwLoginPageViewModel extends GetxController {
 
   Future<void> updateOtherAccount(
       int otherAccountEnum, String username, String password) async {
-    if ((userModel.loginedAppUserDTO.value?.studentNum == null) ||
-        userModel.loginedAppUserDTO.value!.studentNum != username) return;
+    final appUserDTO = AppUserInfoManager().appUserDTO.value;
+    if (!AppUserInfoManager().isLogined()) return;
+    if ((appUserDTO!.studentNum == null) || appUserDTO.studentNum != username) {
+      return;
+    }
 
-    // 是否已经存在
-    final loginedOtherAccountList =
-        userModel.loginedAppUserDTO.value!.otherAccount;
+    // 已经存在教务网账号
+    final loginedOtherAccountList = appUserDTO.otherAccount;
     for (var otherAccount in loginedOtherAccountList) {
       if (otherAccount.otherAccountEnum == otherAccountEnum) return;
     }
@@ -102,11 +103,11 @@ class JwwLoginPageViewModel extends GetxController {
     loginedOtherAccountList.add(jwwAccount);
 
     NetUtil.request(
-      netFun: userInfoApi.userUpdate(userModel.loginedAppUserDTO.value!),
+      netFun: userInfoApi.userUpdate(appUserDTO),
       onDataSuccess: (rightData) async {
         final newAppUserDTO = AppUserDTO.fromJson(rightData);
         SmartDialog.showToast('修改成功!');
-        userModel.loginedAppUserDTO.value = newAppUserDTO;
+        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
       },
     );
   }

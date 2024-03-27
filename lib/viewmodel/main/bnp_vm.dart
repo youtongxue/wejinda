@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/bean/to/app/app_info_rec.dart';
-import 'package:wejinda/enumm/storage_key_enum.dart';
+import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/utils/app_info_util.dart';
 import 'package:wejinda/utils/assert_util.dart';
 
-import '../../bean/to/user/app_user_dto.dart';
 import '../../components/view/custom_bottom_sheet_msg_dialog.dart';
 import '../../components/keep_alive_wrapper.dart';
 import '../../bean/vo/main/nav_item.dart';
@@ -65,42 +64,14 @@ class BottomNavViewModel extends GetxController {
     }
   }
 
-  @override
-  void onReady() async {
-    super.onReady();
-
-    // 这里需要在 onReady 生命周期中才，自动登录，不然UiTree还未绘制完成
-    await _appUserLogin();
-    _checkAppUpdate();
-  }
-
-  // App账号自动登陆
+  /// App账号自动登陆
   Future<void> _appUserLogin() async {
-    debugPrint("进入软件自动登录: > > > >");
-    // 自动登陆
-    final appAccount =
-        accountDataService.getAccount(AccountStorageKeyEnum.appUser);
-    await NetUtil.request(
-      netFun: userInfoApi.userLogin(appAccount.username!, appAccount.password!),
-      onDataSuccess: (rightData) async {
-        final appUserLoginRec = AppUserDTO.fromJson(rightData);
-        // 更新登陆状态
-        userVm.loginInit(appUserLoginRec);
-        //Get.toNamed(AppRountes.bottomNavPage);
-      },
-      onDataError: (errorData) async {
-        Get.toNamed(PagePathUtil.userLoginPage);
-      },
-      onDioException: (dioException) async {
-        Get.toNamed(PagePathUtil.userLoginPage);
-      },
-      onNetError: (errorData) async {
-        Get.toNamed(PagePathUtil.userLoginPage);
-      },
-    );
+    debugPrint("进入软件自动登录: > > > > ");
+    await AppUserInfoManager().autoAppUserLogin();
+    debugPrint("进入软件自动登录完成: > > > > ✅");
   }
 
-  // 检测app更新
+  /// 检测app更新
   void _checkAppUpdate() {
     NetUtil.request(
         netFun: appInfoApi.getAppInfo(),
@@ -124,5 +95,14 @@ class BottomNavViewModel extends GetxController {
             );
           }
         });
+  }
+
+  @override
+  void onReady() async {
+    super.onReady();
+
+    // 这里需要在 onReady 生命周期中才，自动登录，不然UiTree还未绘制完成
+    await _appUserLogin();
+    _checkAppUpdate();
   }
 }

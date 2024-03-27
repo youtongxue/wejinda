@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--请求图片-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:label="wejinda"
         android:name="${applicationName}"

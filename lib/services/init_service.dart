@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:wejinda/net/base/base_api.dart';
 import 'package:wejinda/repository/url/base_url_impl.dart';
 import 'package:wejinda/repository/url/base_url_service.dart';
+import 'package:wejinda/utils/dio_util.dart';
 
 import '../net/api/app_info_api.dart';
 import '../net/api/user_info_api.dart';
@@ -32,7 +32,7 @@ class InitService {
 
     // 初始化用户信息ViewModel
     Get.put<BaseUrlService>(BaseUrlImpl());
-    Get.put(BaseApiService());
+    DioUtil.init();
     Get.put<UserInfoApi>(UserInfoApiImpl());
     Get.put<AppInfoApi>(AppInfoApiImpl());
     Get.lazyPut<AccountDataService>(() => AccountDataImpl());

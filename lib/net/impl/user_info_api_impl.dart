@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:wejinda/bean/to/user/app_user_dto.dart';
 import 'package:wejinda/net/api/user_info_api.dart';
-import 'package:wejinda/net/base/base_api.dart';
 import 'package:wejinda/utils/api_path_util.dart';
 import 'package:wejinda/views/user/password/update_password_dto.dart';
+
+import '../../utils/dio_util.dart';
 
 class UserInfoApiImpl implements UserInfoApi {
   @override
@@ -11,7 +12,7 @@ class UserInfoApiImpl implements UserInfoApi {
     final query = {
       "email": email,
     };
-    return BaseApiService.ableBaseUrlDio.get(
+    return DioUtil.get(
       ApiPathUtil.userRegisterCode,
       queryParameters: query,
     );
@@ -22,7 +23,8 @@ class UserInfoApiImpl implements UserInfoApi {
     final query = {
       "email": email,
     };
-    return BaseApiService.ableBaseUrlDio.post(
+
+    return DioUtil.post(
       ApiPathUtil.uploadUserAvatarImg,
       data: fromDate,
       queryParameters: query,
@@ -35,7 +37,7 @@ class UserInfoApiImpl implements UserInfoApi {
       "registerCode": registerCode,
     };
 
-    return BaseApiService.ableBaseUrlDio.post(
+    return DioUtil.post(
       ApiPathUtil.userRegister,
       data: appUserDTO,
       queryParameters: query,
@@ -48,7 +50,7 @@ class UserInfoApiImpl implements UserInfoApi {
       "username": username,
       "password": password,
     };
-    return BaseApiService.ableBaseUrlDio.post(
+    return DioUtil.post(
       ApiPathUtil.userLogin,
       data: body,
     );
@@ -56,8 +58,7 @@ class UserInfoApiImpl implements UserInfoApi {
 
   @override
   userUpdate(AppUserDTO appUserDTO) {
-    return BaseApiService.ableBaseUrlDio
-        .post(ApiPathUtil.userUpdate, data: appUserDTO);
+    return DioUtil.post(ApiPathUtil.userUpdate, data: appUserDTO);
   }
 
   @override
@@ -66,7 +67,7 @@ class UserInfoApiImpl implements UserInfoApi {
       "email": email,
     };
 
-    return BaseApiService.ableBaseUrlDio.post(
+    return DioUtil.post(
       ApiPathUtil.getUserAvatarByEmail,
       queryParameters: query,
     );
@@ -77,7 +78,7 @@ class UserInfoApiImpl implements UserInfoApi {
     final query = {
       "email": email,
     };
-    return BaseApiService.ableBaseUrlDio.get(
+    return DioUtil.get(
       ApiPathUtil.userUpdatePasswordCode,
       queryParameters: query,
     );
@@ -85,8 +86,8 @@ class UserInfoApiImpl implements UserInfoApi {
 
   @override
   updatePassword(UpdatePasswordDto updatePasswordDto) {
-    return BaseApiService.ableBaseUrlDio
-        .post(ApiPathUtil.userUpdatePassword, data: updatePasswordDto);
+    return DioUtil.post(ApiPathUtil.userUpdatePassword,
+        data: updatePasswordDto);
   }
 
   @override
@@ -95,7 +96,7 @@ class UserInfoApiImpl implements UserInfoApi {
       "verifyCode": verifyCode,
     };
 
-    return BaseApiService.ableBaseUrlDio.post(
+    return DioUtil.post(
       ApiPathUtil.delAccount,
       queryParameters: query,
     );
@@ -103,6 +104,6 @@ class UserInfoApiImpl implements UserInfoApi {
 
   @override
   sendDelAccountCode() {
-    return BaseApiService.ableBaseUrlDio.get(ApiPathUtil.delAccountVerifyCode);
+    return DioUtil.get(ApiPathUtil.delAccountVerifyCode);
   }
 }

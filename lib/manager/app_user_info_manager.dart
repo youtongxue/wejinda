@@ -6,7 +6,6 @@ import '../bean/to/user/app_user_dto.dart';
 import '../bean/to/user/other_account.dart';
 import '../enumm/storage_key_enum.dart';
 import '../net/api/user_info_api.dart';
-import '../net/base/base_api.dart';
 import '../repository/account/account_data_service.dart';
 import '../utils/dio_util.dart';
 import '../utils/net_uitl.dart';
@@ -57,7 +56,7 @@ class AppUserInfoManager {
           }
         }
         // 初始化登陆后的Dio实例
-        BaseApiService.ableBaseUrlDio = DioUtil.getDio(DioConfig.loginedBaseUrl,
+        DioUtil.initDioConfig(DioConfig.defaultBaseUrl,
             loginToken: appUserLoginRec.loginToken);
         // 更新登陆信息
         appUserDTO(appUserLoginRec);
@@ -96,7 +95,7 @@ class AppUserInfoManager {
           }
         }
         // 初始化登陆后的Dio实例
-        BaseApiService.ableBaseUrlDio = DioUtil.getDio(DioConfig.loginedBaseUrl,
+        DioUtil.initDioConfig(DioConfig.defaultBaseUrl,
             loginToken: appUserLoginRec.loginToken);
         // 更新登陆信息
         appUserDTO(appUserLoginRec);

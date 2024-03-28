@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 class SchoolFun {
   late String icon;
   late String desc;

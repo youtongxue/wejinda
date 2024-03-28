@@ -106,46 +106,41 @@ class TwoAutoScrollerPicker extends StatelessWidget {
                     ),
 
                     Expanded(
-                      child: Theme(
-                        data: ThemeData(
-                          platform: TargetPlatform.android,
+                      child: CupertinoPicker(
+                        scrollController: controller.secondScrollerController,
+                        magnification: 1.1,
+                        //squeeze: 1.36,
+                        squeeze: 0.9,
+                        //diameterRatio: 0.2,
+                        useMagnifier: true,
+                        itemExtent: 26,
+                        onSelectedItemChanged: (int selectedItem) {
+                          debugPrint("第二列: > > > $selectedItem");
+                          controller.scrollerSecondList(selectedItem);
+                        },
+                        selectionOverlay: Container(
+                          height: 26,
+                          color: Colors.transparent,
                         ),
-                        child: CupertinoPicker(
-                          scrollController: controller.secondScrollerController,
-                          magnification: 1.1,
-                          //squeeze: 1.36,
-                          squeeze: 0.9,
-                          //diameterRatio: 0.2,
-                          useMagnifier: true,
-                          itemExtent: 26,
-                          onSelectedItemChanged: (int selectedItem) {
-                            debugPrint("第二列: > > > $selectedItem");
-                            controller.scrollerSecondList(selectedItem);
-                          },
-                          selectionOverlay: Container(
-                            height: 26,
-                            color: Colors.transparent,
-                          ),
-                          children: List<Widget>.generate(
-                            dateList.values
-                                .toList()[controller.firstSelected]
-                                .length,
-                            (int index) {
-                              return Center(
-                                child: Text(
-                                  dateList.values
-                                      .toList()[controller.firstSelected][index]
-                                      .toString(),
-                                  style: TextStyle(
-                                    fontSize: secondFontSize,
-                                    color: controller.secondSelected == index
-                                        ? MyColors.textMain.color
-                                        : MyColors.textSecond.color,
-                                  ),
+                        children: List<Widget>.generate(
+                          dateList.values
+                              .toList()[controller.firstSelected]
+                              .length,
+                          (int index) {
+                            return Center(
+                              child: Text(
+                                dateList.values
+                                    .toList()[controller.firstSelected][index]
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: secondFontSize,
+                                  color: controller.secondSelected == index
+                                      ? MyColors.textMain.color
+                                      : MyColors.textSecond.color,
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

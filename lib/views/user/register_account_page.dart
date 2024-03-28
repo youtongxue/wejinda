@@ -208,14 +208,32 @@ class RegisterAccountFirst extends GetView<RegisterAccountPageViewModel> {
         const Expanded(child: SizedBox()),
         Column(
           children: [
-            GestureDetector(
-              onTap: () {
-                Get.offAndToNamed(PagePathUtil.userLoginPage);
-              },
-              child: Text(
-                "去登陆",
-                style: TextStyle(color: MyColors.textBlue.color),
-              ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.offAndToNamed(PagePathUtil.userLoginPage);
+                  },
+                  child: Text(
+                    "去登陆",
+                    style: TextStyle(color: MyColors.textBlue.color),
+                  ),
+                ),
+                Text(
+                  " | ",
+                  style: TextStyle(color: MyColors.textBlue.color),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(PagePathUtil.updatePasswordPage,
+                        arguments: "retrievePassword");
+                  },
+                  child: Text(
+                    "忘记密码",
+                    style: TextStyle(color: MyColors.textBlue.color),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 32),
           ],

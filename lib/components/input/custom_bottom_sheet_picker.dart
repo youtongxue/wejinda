@@ -73,45 +73,39 @@ class CustomBottomSheetPicker extends StatelessWidget {
                     // item1List
                     firstList != null
                         ? Expanded(
-                            child: Theme(
-                              data: ThemeData(
-                                platform: TargetPlatform.android,
+                            child: CupertinoPicker(
+                              magnification: 1.1,
+                              //squeeze: 1.36,
+                              squeeze: 0.9,
+                              //diameterRatio: 0.2,
+                              useMagnifier: true,
+                              itemExtent: 26,
+                              scrollController:
+                                  controller.firstScrollerController,
+                              // This is called when selected item is changed.
+                              onSelectedItemChanged: (int selectedItem) {
+                                debugPrint("第一项: > > > $selectedItem");
+                                controller.scrollerFirstList(selectedItem);
+                              },
+                              selectionOverlay: Container(
+                                height: 26,
+                                color: Colors.transparent,
                               ),
-                              child: CupertinoPicker(
-                                magnification: 1.1,
-                                //squeeze: 1.36,
-                                squeeze: 0.9,
-                                //diameterRatio: 0.2,
-                                useMagnifier: true,
-                                itemExtent: 26,
-                                scrollController:
-                                    controller.firstScrollerController,
-                                // This is called when selected item is changed.
-                                onSelectedItemChanged: (int selectedItem) {
-                                  debugPrint("第一项: > > > $selectedItem");
-                                  controller.scrollerFirstList(selectedItem);
-                                },
-                                selectionOverlay: Container(
-                                  height: 26,
-                                  color: Colors.transparent,
-                                ),
-                                children: List<Widget>.generate(
-                                  firstList!.length,
-                                  (int index) {
-                                    return Center(
-                                      child: Text(
-                                        firstList![index].toString(),
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color:
-                                              controller.firstSelected == index
-                                                  ? MyColors.textMain.color
-                                                  : MyColors.textSecond.color,
-                                        ),
+                              children: List<Widget>.generate(
+                                firstList!.length,
+                                (int index) {
+                                  return Center(
+                                    child: Text(
+                                      firstList![index].toString(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: controller.firstSelected == index
+                                            ? MyColors.textMain.color
+                                            : MyColors.textSecond.color,
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           )

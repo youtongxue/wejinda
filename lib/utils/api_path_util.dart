@@ -13,9 +13,11 @@ class ApiPathUtil {
 
   static const String userRegisterCode = "/user/registerCode";
   static const String userUpdatePasswordCode = "/user/updatePasswordCode";
+  static const String retrieveCodePasswordCode = "/user/retrieveCode";
   static const String delAccountVerifyCode = "/user/delCode";
   static const String delAccount = "/user/del";
   static const String userUpdatePassword = "/user/updatePassword";
+  static const String retrievePassword = "/user/retrievePassword";
   static const String uploadUserAvatarImg = "/upload/userAvatarImg";
   static const String userRegister = "/user/register";
   static const String userLogin = "/user/login";

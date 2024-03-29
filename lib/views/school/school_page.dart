@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/bean/vo/schoolpage/school_fun.dart';
+import 'package:wejinda/enumm/appbar_enum.dart';
 import 'package:wejinda/enumm/color_enum.dart';
 import 'package:wejinda/enumm/nav_enum.dart';
 import 'package:wejinda/manager/app_user_info_manager.dart';
@@ -14,6 +14,8 @@ import 'package:wejinda/viewmodel/timetable/timetable_vm.dart';
 
 import '../../bean/vo/schoolpage/school_card_item.dart';
 import '../../components/container/custom_container.dart';
+import '../../components/keep_alive_wrapper.dart';
+import '../../components/view/custom_swiper.dart';
 import '../../enumm/course_enum.dart';
 import '../../utils/assert_util.dart';
 import '../../utils/page_path_util.dart';
@@ -180,116 +182,18 @@ List<SchoolCardItem> schoolCard = [
 ];
 
 Widget _swiperBg(BuildContext context, SchoolPageViewModel controller) {
-  return Obx(
-    // Transform.translate offset实现背景图部分，与ListView同时发生移动
-    () => Transform.translate(
-      offset: Offset(
-          0, controller.offset.value < 0 ? 0 : -(controller.offset.value)),
-      child: Container(
-        color: Colors.transparent,
-        height: context.height / 2.9,
-        width: context.width,
-        child: Obx(
-          () => Transform.scale(
-            scale: controller.userBgPicScale.value,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: context.height / 2.91,
-                  width: context.width,
-                  child: Stack(
-                    children: [
-                      // swiper组件
-                      // fix 自动滚动时会重复渲染
-                      Align(
-                        child: Swiper(
-                          itemCount: 3,
-                          itemBuilder: (BuildContext context, int index) {
-                            // debugPrint("滚动重新绘制 》 》 > >> >");
-                            return CustomContainer(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              duration: const Duration(milliseconds: 200),
-                              scaleValue: 0.96,
-                              child: ExtendedImage.network(
-                                "https://singlestep.cn/wejinda/res/img/swapper/swapper_${index + 1}.jpg",
-                                fit: BoxFit.cover,
-                                cache: true,
-                                //cancelToken: cancellationToken,
-                              ),
-                            );
-                          },
-                          autoplayDelay: 6000, // 自动滑动延时
-                          duration: 1600, // 动画时间 mill
-                          autoplay: true,
-                          curve: Curves.fastOutSlowIn,
-                          viewportFraction: 1,
-                          //scale: 0.9, // 缩小倍数
-                          //fade: 0.6, // 渐变
-                          scale: 1, // 缩小倍数
-                          fade: 0.6, // 渐变
-                          onIndexChanged: (value) {
-                            controller.swiperCurrentIndex(value);
-                          },
-                        ),
-                      ),
-
-                      // 指视标
-                      Positioned(
-                        //alignment: Alignment.bottomCenter,
-                        bottom: 32,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            3,
-                            (index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Obx(() => Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      height: 6,
-                                      width: 6,
-                                      decoration: BoxDecoration(
-                                        color: controller
-                                                    .swiperCurrentIndex.value ==
-                                                index
-                                            ? Colors.white
-                                            : MyColors.iconGrey2.color
-                                                .withOpacity(0.8),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    )),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: const Alignment(0, 1),
-                      end: const Alignment(0, -0.2),
-                      colors: [
-                        //Colors.blue,
-                        MyColors.background.color,
-                        MyColors.background.color.withOpacity(0.6),
-                        MyColors.background.color.withOpacity(0.0),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+  return const CustomContainer(
+    color: Colors.transparent,
+    duration: Duration(milliseconds: 200),
+    foreAnim: false,
+    scaleValue: 0.96,
+    child: CustomSwiper(
+      imgUrlList: [
+        "https://singlestep.cn/wejinda/res/img/mybg1.jpg",
+        "https://singlestep.cn/wejinda/res/img/swapper/swapper_1.jpg",
+        "https://singlestep.cn/wejinda/res/img/swapper/swapper_2.jpg",
+        "https://singlestep.cn/wejinda/res/img/swapper/swapper_3.jpg"
+      ],
     ),
   );
 }
@@ -298,58 +202,53 @@ Widget _customAppBar(BuildContext context, SchoolPageViewModel controller) {
   return // 自定义导航栏
       Align(
     alignment: Alignment.topCenter,
-    child: Obx(
-      () => Container(
-        padding: EdgeInsets.only(
-            top: context.mediaQueryPadding.top, left: 12, right: 12),
+    child: Container(
+      padding: EdgeInsets.only(
+          top: context.mediaQueryPadding.top, left: 12, right: 12),
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(color: Colors.white),
+      height: 50 + context.mediaQueryPadding.top,
+      child: Stack(
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color:
-              controller.bodyScroller.value ? Colors.white : Colors.transparent,
-        ),
-        height: 50 + context.mediaQueryPadding.top,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              left: 0,
-              child: SizedBox(
-                width: 36,
-                height: 36,
-                child: Obx(
-                  () => (AppUserInfoManager().isLogined() &&
-                          AppUserInfoManager()
-                              .appUserDTO
-                              .value!
-                              .userImg
-                              .isNotEmpty)
-                      ? ClipOval(
-                          child: ExtendedImage.network(
-                            AppUserInfoManager().appUserDTO.value!.userImg,
-                            fit: BoxFit.contain,
-                            cache: true,
-                            //mode: ExtendedImageMode.editor,
-                          ),
-                        )
-                      : ClipOval(
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            color: Colors.grey,
-                            child: const Center(
-                              child: Text("未登陆", style: TextStyle(fontSize: 8)),
-                            ),
+        children: [
+          Positioned(
+            left: 0,
+            child: SizedBox(
+              width: 36,
+              height: 36,
+              child: Obx(
+                () => (AppUserInfoManager().isLogined() &&
+                        AppUserInfoManager()
+                            .appUserDTO
+                            .value!
+                            .userImg
+                            .isNotEmpty)
+                    ? ClipOval(
+                        child: ExtendedImage.network(
+                          AppUserInfoManager().appUserDTO.value!.userImg,
+                          fit: BoxFit.contain,
+                          cache: true,
+                          //mode: ExtendedImageMode.editor,
+                        ),
+                      )
+                    : ClipOval(
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          color: Colors.grey,
+                          child: const Center(
+                            child: Text("未登陆", style: TextStyle(fontSize: 8)),
                           ),
                         ),
-                ),
+                      ),
               ),
             ),
-            const Positioned(
-              right: 0,
-              child: Icon(Icons.notifications),
-            ),
-          ],
-        ),
+          ),
+          const Positioned(
+            right: 0,
+            child: Icon(Icons.notifications),
+          ),
+        ],
       ),
     ),
   );
@@ -364,7 +263,6 @@ class SchoolPage extends GetView<SchoolPageViewModel> {
       backgroundColor: MyColors.background.color,
       body: Stack(
         children: [
-          _swiperBg(context, controller),
           // body部分
           Align(
             alignment: Alignment.topCenter,
@@ -377,14 +275,19 @@ class SchoolPage extends GetView<SchoolPageViewModel> {
                 context: context,
                 removeTop: true,
                 child: ListView(
-                  controller: controller.scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
-                    // 底层swiper的高度
-                    Container(
-                      height: context.height / 3.2,
+                    SizedBox(
+                        height: AppBarOptions.hight50.height +
+                            context.mediaQueryPadding.top +
+                            16),
+                    // swiper
+                    SizedBox(
+                      height: 160,
                       width: context.width,
+                      child: _swiperBg(context, controller),
                     ),
+                    const SizedBox(height: 16),
                     // 功能Item
                     Container(
                       //height: 100,
@@ -490,7 +393,6 @@ class SchoolPage extends GetView<SchoolPageViewModel> {
                               schoolCard[index].onTap!();
                               debugPrint("点击回调函数触发");
                             },
-                            bgAnim: false,
                             color: Colors.white,
                             clipBehavior: Clip.hardEdge,
                             borderRadius: BorderRadius.circular(16),

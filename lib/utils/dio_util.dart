@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wejinda/utils/api_path_util.dart';
 
 enum DioConfig {

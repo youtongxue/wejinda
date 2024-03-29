@@ -155,6 +155,7 @@ class AboutWejindaPage extends GetView<AboutWejindaPageViewModel> {
                       ),
                     ),
                   ),
+                  SizedBox(height: context.mediaQueryPadding.bottom),
                 ],
               ),
             ),

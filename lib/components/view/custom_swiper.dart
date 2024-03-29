@@ -134,23 +134,25 @@ class CustomSwiper extends StatelessWidget {
 class CustomSwiperController extends GetxController {
   final List<String> imgUrlList;
 
-  final PageController pageController = PageController(
-    viewportFraction: 1,
-    initialPage: 0,
-  );
-  late MyTimer myTimer;
+  late final PageController pageController;
+  late final MyTimer myTimer;
   var swiperCurrentIndex = 0.obs;
 
   CustomSwiperController({required this.imgUrlList});
 
   void swipChange(int currentIndex) {
-    debugPrint("currentIndex: > > > $currentIndex");
     swiperCurrentIndex.value = currentIndex % imgUrlList.length;
   }
 
   @override
   void onInit() {
     super.onInit();
+
+    pageController = PageController(
+      viewportFraction: 1,
+      // 初始化选中index
+      initialPage: 100 * (imgUrlList.length),
+    );
 
     myTimer = MyTimer(
       duration: const Duration(seconds: 5),

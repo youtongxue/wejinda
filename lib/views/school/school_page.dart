@@ -14,7 +14,6 @@ import 'package:wejinda/viewmodel/timetable/timetable_vm.dart';
 
 import '../../bean/vo/schoolpage/school_card_item.dart';
 import '../../components/container/custom_container.dart';
-import '../../components/keep_alive_wrapper.dart';
 import '../../components/view/custom_swiper.dart';
 import '../../enumm/course_enum.dart';
 import '../../utils/assert_util.dart';
@@ -189,10 +188,12 @@ Widget _swiperBg(BuildContext context, SchoolPageViewModel controller) {
     scaleValue: 0.96,
     child: CustomSwiper(
       imgUrlList: [
-        "https://singlestep.cn/wejinda/res/img/mybg1.jpg",
-        "https://singlestep.cn/wejinda/res/img/swapper/swapper_1.jpg",
-        "https://singlestep.cn/wejinda/res/img/swapper/swapper_2.jpg",
-        "https://singlestep.cn/wejinda/res/img/swapper/swapper_3.jpg"
+        "https://singlestep.cn/wejinda/res/img/swiper_1.jpeg",
+        "https://singlestep.cn/wejinda/res/img/swiper_2.jpeg",
+        "https://singlestep.cn/wejinda/res/img/swiper_3.jpeg",
+        "https://singlestep.cn/wejinda/res/img/swiper_4.jpeg",
+        "https://singlestep.cn/wejinda/res/img/swiper_5.jpeg",
+        "https://singlestep.cn/wejinda/res/img/swiper_6.jpeg",
       ],
     ),
   );

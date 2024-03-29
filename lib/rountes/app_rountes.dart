@@ -40,10 +40,14 @@ import 'package:wejinda/views/user/del/del_account_page.dart';
 import 'package:wejinda/views/user/del/del_account_page_vm.dart';
 import 'package:wejinda/views/user/nickname/nickname_page.dart';
 import 'package:wejinda/views/user/nickname/nickname_page_vm.dart';
-import 'package:wejinda/views/user/password/update_password_page.dart';
-import 'package:wejinda/views/user/password/update_password_page_vm.dart';
-import 'package:wejinda/views/user/password/update_password_verify_page.dart';
-import 'package:wejinda/views/user/password/update_password_verify_page_vm.dart';
+import 'package:wejinda/views/user/retrieve_password/retrieve_password_page.dart';
+import 'package:wejinda/views/user/retrieve_password/retrieve_password_page_vm.dart';
+import 'package:wejinda/views/user/retrieve_password/retrieve_password_verify_page.dart';
+import 'package:wejinda/views/user/retrieve_password/retrieve_password_verify_page_vm.dart';
+import 'package:wejinda/views/user/update_password/update_password_page.dart';
+import 'package:wejinda/views/user/update_password/update_password_page_vm.dart';
+import 'package:wejinda/views/user/update_password/update_password_verify_page.dart';
+import 'package:wejinda/views/user/update_password/update_password_verify_page_vm.dart';
 import 'package:wejinda/views/user/slogan/slogan_page.dart';
 import 'package:wejinda/views/user/slogan/slogan_page_vm.dart';
 import 'package:wejinda/views/user/student_id/student_id_page.dart';
@@ -302,6 +306,22 @@ class AppRountes {
         page: () => const BaseUrlPage(),
         binding: BindingsBuilder((() {
           Get.lazyPut<BaseUrlPageViewModel>(() => BaseUrlPageViewModel());
+        }))),
+    // 找回密码界面
+    GetPage(
+        name: PagePathUtil.retrievePasswordPage,
+        page: () => const RetrievePasswordPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<RetrievePasswordPageViewModel>(
+              () => RetrievePasswordPageViewModel());
+        }))),
+    // 找回密码界面
+    GetPage(
+        name: PagePathUtil.retrievePasswordVerifyCodePage,
+        page: () => const RetrievePasswordVerifyPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<RetrievePasswordVerifyPageViewModel>(
+              () => RetrievePasswordVerifyPageViewModel());
         }))),
   ];
 }

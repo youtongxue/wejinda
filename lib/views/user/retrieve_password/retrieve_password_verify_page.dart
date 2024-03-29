@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/components/appbar/normal_appbar.dart';
-import 'package:wejinda/components/view/custom_body.dart';
-import 'package:wejinda/manager/app_user_info_manager.dart';
-import 'package:wejinda/views/user/password/update_password_verify_page_vm.dart';
 
+import '../../../components/appbar/normal_appbar.dart';
 import '../../../components/container/custom_container.dart';
 import '../../../components/input/custom_four_edit.dart';
+import '../../../components/view/custom_body.dart';
 import '../../../enumm/color_enum.dart';
 import '../../../utils/assert_util.dart';
+import 'retrieve_password_verify_page_vm.dart';
 
-class UpdatePasswordVerifyPage
-    extends GetView<UpdatePasswordVerifyPageViewModel> {
-  const UpdatePasswordVerifyPage({super.key});
+class RetrievePasswordVerifyPage
+    extends GetView<RetrievePasswordVerifyPageViewModel> {
+  const RetrievePasswordVerifyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class UpdatePasswordVerifyPage
                     ),
                     const SizedBox(height: 12),
                     Text(
-                        "至您的邮箱: ${AppUserInfoManager().appUserDTO.value!.email}")
+                        "至您的邮箱: ${controller.retrievePasswordPageViewModel.email.value}")
                   ],
                 ),
               ),
@@ -60,7 +59,9 @@ class UpdatePasswordVerifyPage
               const SizedBox(height: 32),
               Obx(
                 () => GestureDetector(
-                  onTap: controller.reSendVerifCode,
+                  onTap: () {
+                    controller.reSendRetrievePasswordVerifCode();
+                  },
                   child: RichText(
                     text: TextSpan(
                       children: [
@@ -97,7 +98,7 @@ class UpdatePasswordVerifyPage
                   scaleValue: 0.95,
                   duration: const Duration(milliseconds: 160),
                   onTap: () {
-                    controller.updatePassword();
+                    controller.retrievePassword();
                   },
                   child: Container(
                     alignment: Alignment.center,

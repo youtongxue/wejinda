@@ -43,6 +43,13 @@ class PagePathUtil {
   static const updatePasswordVerifyCodePage = '/updatePasswordVerifyCodePage';
   // 修改密码
   static const updatePasswordPage = '/updatePasswordPage';
+
+  // 找回密码发送验证码界面
+  static const retrievePasswordVerifyCodePage =
+      '/retrievePasswordVerifyCodePage';
+  // 修改找回密码
+  static const retrievePasswordPage = '/retrievePasswordPage';
+
   // 修改密码
   static const delAccountPage = '/delAccountPage';
   // 修改BaseUrl

@@ -2,9 +2,10 @@ import 'package:dio/dio.dart' as dio;
 import 'package:wejinda/bean/to/user/app_user_dto.dart';
 import 'package:wejinda/net/api/user_info_api.dart';
 import 'package:wejinda/utils/api_path_util.dart';
-import 'package:wejinda/views/user/password/update_password_dto.dart';
+import 'package:wejinda/views/user/update_password/update_password_dto.dart';
 
 import '../../utils/dio_util.dart';
+import '../../views/user/retrieve_password/retrieve_password_dto.dart';
 
 class UserInfoApiImpl implements UserInfoApi {
   @override
@@ -105,5 +106,22 @@ class UserInfoApiImpl implements UserInfoApi {
   @override
   sendDelAccountCode() {
     return DioUtil.get(ApiPathUtil.delAccountVerifyCode);
+  }
+
+  @override
+  retrievePassword(RetrievePasswordDto retrievePasswordDto) {
+    return DioUtil.post(ApiPathUtil.retrievePassword,
+        data: retrievePasswordDto);
+  }
+
+  @override
+  sendRetrievePasswordCode(String email) {
+    final query = {
+      "email": email,
+    };
+    return DioUtil.get(
+      ApiPathUtil.retrieveCodePasswordCode,
+      queryParameters: query,
+    );
   }
 }

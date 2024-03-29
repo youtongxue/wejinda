@@ -59,8 +59,6 @@ dependencies:
   intl: ^0.19.0
   # 文字滚动
   marquee: ^2.2.3
-  # swiper
-  card_swiper: ^3.0.1
   # WebView
   webview_flutter: ^4.7.0
   # 调用浏览器打开URL

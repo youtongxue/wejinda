@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/manager/app_user_info_manager.dart';
-import 'package:wejinda/views/user/password/update_password_dto.dart';
 
 import '../../../net/api/user_info_api.dart';
 import '../../../utils/net_uitl.dart';
-import 'update_password_page_vm.dart';
+import '../../../utils/page_path_util.dart';
+import 'retrieve_password_dto.dart';
+import 'retrieve_password_page_vm.dart';
 
-class UpdatePasswordVerifyPageViewModel extends GetxController {
-  final updatePasswordVM = Get.find<UpdatePasswordPageViewModel>();
+class RetrievePasswordVerifyPageViewModel extends GetxController {
+  final retrievePasswordPageViewModel =
+      Get.find<RetrievePasswordPageViewModel>();
   final userInfoApi = Get.find<UserInfoApi>();
 
   var verifCode = ''.obs; // 验证码
@@ -20,14 +21,14 @@ class UpdatePasswordVerifyPageViewModel extends GetxController {
   // 事件
   Timer? timer;
 
-  /// 点击重新发送验证码
-  void reSendVerifCode() {
+  /// 点击重新发送找回密码验证码
+  void reSendRetrievePasswordVerifCode() {
     if (reSendCodeTime.value == 0) {
-      debugPrint("> > > 重新发送验证码 ");
+      debugPrint("> > > 点击重新发送找回密码验证码 ");
 
       NetUtil.request(
-        netFun: userInfoApi.sendUpdatePasswordCode(
-            AppUserInfoManager().appUserDTO.value!.email),
+        netFun: userInfoApi.sendRetrievePasswordCode(
+            retrievePasswordPageViewModel.email.value),
         onDataSuccess: (rightData) async {
           SmartDialog.showToast(rightData.toString());
 
@@ -47,18 +48,16 @@ class UpdatePasswordVerifyPageViewModel extends GetxController {
     }
   }
 
-  void updatePassword() {
-    final ppdatePasswordDto = UpdatePasswordDto(
-        verifyCode: verifCode.value, password: updatePasswordVM.password.value);
+  void retrievePassword() {
+    final retrievePasswordDto = RetrievePasswordDto(
+        verifyCode: verifCode.value,
+        email: retrievePasswordPageViewModel.email.value,
+        password: retrievePasswordPageViewModel.password.value);
     NetUtil.request(
-      netFun: userInfoApi.updatePassword(ppdatePasswordDto),
+      netFun: userInfoApi.retrievePassword(retrievePasswordDto),
       onDataSuccess: (rightData) async {
         SmartDialog.showToast(rightData.toString());
-        // 再次自动登陆
-        await AppUserInfoManager().appUserLogin(
-            AppUserInfoManager().appUserDTO.value!.email,
-            updatePasswordVM.password.value);
-        Get.back();
+        Get.offAllNamed(PagePathUtil.userLoginPage);
       },
     );
   }
@@ -67,6 +66,6 @@ class UpdatePasswordVerifyPageViewModel extends GetxController {
   void onReady() {
     super.onReady();
 
-    reSendVerifCode();
+    reSendRetrievePasswordVerifCode();
   }
 }

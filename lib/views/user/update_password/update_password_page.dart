@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/views/user/password/update_password_page_vm.dart';
+import 'package:wejinda/views/user/update_password/update_password_page_vm.dart';
 
 import '../../../components/appbar/normal_appbar.dart';
 import '../../../components/container/custom_container.dart';

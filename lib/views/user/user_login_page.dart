@@ -166,14 +166,33 @@ class UserLoginPage extends GetView<UserLoginPageViewModel> {
                   const Expanded(child: SizedBox()),
                   Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.offAndToNamed(PagePathUtil.registerAccountPage);
-                        },
-                        child: Text(
-                          "去注册",
-                          style: TextStyle(color: MyColors.textBlue.color),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.offAndToNamed(
+                                  PagePathUtil.registerAccountPage);
+                            },
+                            child: Text(
+                              "立刻注册",
+                              style: TextStyle(color: MyColors.textBlue.color),
+                            ),
+                          ),
+                          Text(
+                            " | ",
+                            style: TextStyle(color: MyColors.textSecond.color),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(PagePathUtil.retrievePasswordPage);
+                            },
+                            child: Text(
+                              "找回密码",
+                              style: TextStyle(color: MyColors.textBlue.color),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 32),
                     ],

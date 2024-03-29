@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:wejinda/bean/to/user/app_user_dto.dart';
-import 'package:wejinda/views/user/password/update_password_dto.dart';
+import 'package:wejinda/views/user/update_password/update_password_dto.dart';
+
+import '../../views/user/retrieve_password/retrieve_password_dto.dart';
 
 abstract class UserInfoApi {
   // 发送注册验证码
@@ -9,8 +11,14 @@ abstract class UserInfoApi {
   // 发送修改密码验证码
   dynamic sendUpdatePasswordCode(String email);
 
-  // 修改密码
+  // 更新密码
   dynamic updatePassword(UpdatePasswordDto updatePasswordDto);
+
+  // 发送找回密码验证码
+  dynamic sendRetrievePasswordCode(String email);
+
+  // 找回修改密码
+  dynamic retrievePassword(RetrievePasswordDto retrievePasswordDto);
 
   // 头像上传
   dynamic uploadUserAvatarImg(String email, dio.FormData fromDate);

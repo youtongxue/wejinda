@@ -1,20 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/utils/net_uitl.dart';
 
-import '../../bean/to/user/app_user_dto.dart';
-import '../../enumm/storage_key_enum.dart';
 import '../../net/api/user_info_api.dart';
-import '../../repository/account/account_data_service.dart';
 import '../../utils/page_path_util.dart';
-import 'user_page_vm.dart';
 
 class UserLoginPageViewModel extends GetxController {
   final userInfoApi = Get.find<UserInfoApi>();
-  final userVm = Get.find<UserPageViewModel>();
-  final accountDataService = Get.find<AccountDataService>();
 
   var email = ''.obs; // 邮箱
   var password = ''.obs; // 密码

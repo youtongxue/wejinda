@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/components/container/custom_container.dart';
@@ -70,31 +72,33 @@ class AppUpdatePage extends GetView<AppUpdatePageViewModel> {
                         )),
                     Expanded(
                       flex: 1,
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        padding: const EdgeInsets.all(32),
-                        //color: Colors.pink,
-                        child: CustomContainer(
-                          borderRadius: BorderRadius.circular(30),
-                          duration: const Duration(milliseconds: 180),
-                          onTap: controller.downloadApk,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 50,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Text(
-                              "去下载",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: Platform.isAndroid
+                          ? Container(
+                              alignment: Alignment.bottomCenter,
+                              padding: const EdgeInsets.all(32),
+                              //color: Colors.pink,
+                              child: CustomContainer(
+                                borderRadius: BorderRadius.circular(30),
+                                duration: const Duration(milliseconds: 180),
+                                onTap: controller.downloadApk,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 50,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Text(
+                                    "去下载",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ),
                   ],
                 ),

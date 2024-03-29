@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wejinda/utils/api_path_util.dart';
 
 enum DioConfig {
-  ableBaseUrl(key: "ableBaseUrl"),
-  enableBaseUrl(key: "enableBaseUrl"),
-  loginedBaseUrl(key: "loginedBaseUrl");
+  defaultBaseUrl(key: "defaultBaseUrl"),
+  otherBaseUrl(key: "otherBaseUrl");
 
   final String key;
 
@@ -15,93 +15,95 @@ enum DioConfig {
 }
 
 class DioUtil {
-  static late Dio _dio;
-  late BaseOptions _baseOptions;
-  static final Map<DioConfig, DioUtil> _dioMap = {};
+  DioUtil._privateConstructor();
+  static final DioUtil _instance = DioUtil._privateConstructor();
+  factory DioUtil() {
+    return _instance;
+  }
+
+  static late Dio _defaultBaseUrlDio;
+  static late Dio _otherBaseUrlDio;
+  static late BaseOptions _defaultOptions;
 
   // dio初始化配置 https://github.com/cfug/dio/blob/main/dio/README-ZH.md -> 【请求配置】
-  DioUtil._ableBaseUrl() {
-    debugPrint("初始化Dio, 带BASE_URL");
-    _baseOptions = BaseOptions(
-        baseUrl: ApiPathUtil.springBootBaseUrl,
+  static void _defaultBaseUrl({String? loginToken}) {
+    debugPrint("初始化Dio✅ 带BASE_URL > > > ${ApiPathUtil.getSpringBootBaseUrl()}");
+    _defaultOptions = BaseOptions(
+        baseUrl: ApiPathUtil.getSpringBootBaseUrl(),
         contentType: Headers.jsonContentType);
-    _dio = Dio(_baseOptions);
-  }
-
-  DioUtil._enableBaseUrl() {
-    debugPrint("初始化Dio, 不带BASE_URL");
-    _dio = Dio();
-  }
-
-  DioUtil._loginedBaseUrl(String loginToken) {
-    debugPrint("初始化Dio, 带BASE_URL、添加拦截器注入loginToken");
-    _baseOptions = BaseOptions(
-        baseUrl: ApiPathUtil.springBootBaseUrl,
-        contentType: Headers.jsonContentType);
-    _dio = Dio(_baseOptions);
-
-    // 添加拦截器
-    _dio.interceptors.add(InterceptorsWrapper(onRequest:
-        (RequestOptions options, RequestInterceptorHandler handler) async {
-      var customHeaders = {'loginToken': loginToken};
-      options.headers.addAll(customHeaders);
-      return handler.next(options); // continue
-    }));
-  }
-
-  static DioUtil getDio(DioConfig dioConfig, {String? loginToken}) {
-    if (!_dioMap.containsKey(dioConfig)) {
-      if (dioConfig == DioConfig.ableBaseUrl) {
-        _dioMap[dioConfig] = DioUtil._ableBaseUrl();
-      } else if (dioConfig == DioConfig.enableBaseUrl) {
-        _dioMap[dioConfig] = DioUtil._enableBaseUrl();
-      } else if (dioConfig == DioConfig.loginedBaseUrl) {
-        _dioMap[dioConfig] = DioUtil._loginedBaseUrl(loginToken!);
-      }
+    _defaultBaseUrlDio = Dio(_defaultOptions);
+    if (null != loginToken) {
+      // 添加拦截器
+      _defaultBaseUrlDio.interceptors.add(InterceptorsWrapper(onRequest:
+          (RequestOptions options, RequestInterceptorHandler handler) async {
+        var customHeaders = {'loginToken': loginToken};
+        options.headers.addAll(customHeaders);
+        return handler.next(options); // continue
+      }));
     }
+  }
 
-    return _dioMap[dioConfig]!;
+  static void _otherBaseUrl() {
+    debugPrint("初始化Dio✅, 不带BASE_URL");
+    _otherBaseUrlDio = Dio();
+  }
+
+  static void init() {
+    _defaultBaseUrl();
+    _otherBaseUrl();
+  }
+
+  static void initDioConfig(DioConfig dioConfig, {String? loginToken}) {
+    if (dioConfig == DioConfig.defaultBaseUrl) {
+      _defaultBaseUrl(loginToken: loginToken);
+    } else if (dioConfig == DioConfig.otherBaseUrl) {
+      _otherBaseUrl();
+    }
   }
 
   // get请求
-  Future<dynamic> get(url,
-      {Object? data,
+  static Future<dynamic> get(url,
+      {bool useDefaultBaseUrl = true,
+      Object? data,
       Map<String, dynamic>? queryParameters,
       Options? options}) async {
+    final dio = useDefaultBaseUrl ? _defaultBaseUrlDio : _otherBaseUrlDio;
     debugPrint(
-        '< < <   get请求   > > > \n------ path:$url \n-------query 请求头信息:$options \n-------url 请求参数:$queryParameters \n-------body 请求参数:$data');
+        '< < <   Get请求   > > > \n------baseUrl: ${dio.options.baseUrl} \n------path:$url \n------header(请求头信息):$options \n------query(url参数):$queryParameters \n------body:$data');
     try {
-      Response response = await _dio.get(url,
+      Response response = await dio.get(url,
           data: data, queryParameters: queryParameters, options: options);
-      debugPrint('< < <   get结果   > > > \n------ result: ${response.data}');
+      debugPrint('< < <   Get结果   > > > \n------result:${response.data}');
       return response;
     } on DioException catch (e) {
       debugPrint(
-          '< < <   get请求失败   > > > \n------ 错误类型:\n${e.type} \n------ 错误信息:\n${e.message}');
+          '< < <   Get请求失败   > > > \n------错误类型:${e.type} \n------错误信息:$e');
       return e;
     }
   }
 
   // Post请求
-  Future<dynamic> post(url,
-      {Object? data,
+  static Future<dynamic> post(url,
+      {bool useDefaultBaseUrl = true,
+      Object? data,
       Map<String, dynamic>? queryParameters,
       Options? options}) async {
+    final dio = useDefaultBaseUrl ? _defaultBaseUrlDio : _otherBaseUrlDio;
     debugPrint(
-        '< < <   post请求   > > > \n------ path:$url \n-------query 请求头信息:$options \n-------url 请求参数:$queryParameters \n-------body 请求参数:$data');
+        '< < <   Post请求   > > > \n------baseUrl: ${dio.options.baseUrl} \n------path:$url \n------header(请求头信息):$options \n------query(url参数):$queryParameters \n------body:$data');
     try {
-      Response response = await _dio.post(
+      Response response = await dio.post(
         url,
         data: data,
         queryParameters: queryParameters,
         options: options,
       );
 
-      debugPrint('< < <   post结果   > > > \n------ result:${response.data}');
+      debugPrint('< < <   Post结果   > > > \n------result:${response.data}');
       return response;
     } on DioException catch (e) {
       debugPrint(
-          '< < <   post请求失败   > > > \n------ 错误类型:\n${e.type} \n------ 错误信息:\n${e.message}');
+          '< < <   Post请求失败   > > > \n------错误类型:${e.type} \n------ 错误信息:$e');
       return e;
     }
   }

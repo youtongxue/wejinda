@@ -6,6 +6,7 @@ import 'rountes/app_rountes.dart';
 import 'services/init_service.dart';
 import 'utils/page_path_util.dart';
 
+// flutter build apk --split-per-abi
 void main() async {
   // 全局初始化
   await InitService.init();

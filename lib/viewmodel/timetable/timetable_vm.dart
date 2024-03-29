@@ -7,8 +7,6 @@ import 'package:wejinda/repository/course/course_info.dart';
 
 import 'package:date_format/date_format.dart';
 
-import '../../repository/course/data.dart';
-
 class TimeTableViewModel extends GetxController {
   static const int oneWeekDay = 7;
   static const int oneDayCourse = 12;

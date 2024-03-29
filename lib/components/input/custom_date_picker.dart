@@ -71,113 +71,104 @@ class CustomDatePicekr extends StatelessWidget {
                   children: [
                     // 年份滚动Item
                     Expanded(
-                      child: Theme(
-                        data: ThemeData(platform: TargetPlatform.android),
-                        child: CupertinoPicker(
-                          magnification: 1.1,
-                          //squeeze: 1.36,
-                          squeeze: 0.9,
-                          //diameterRatio: 0.2,
-                          useMagnifier: true,
-                          itemExtent: 26,
-                          onSelectedItemChanged: (int selectedItem) {
-                            controller.scrollYear(selectedItem);
-                          },
-                          scrollController: controller.yearScrollerController,
-                          selectionOverlay: Container(
-                            height: 26,
-                            color: Colors.transparent,
-                          ),
-                          children: List<Widget>.generate(
-                              controller.showYearList.length, (int index) {
-                            return Center(
-                              child: Text(
-                                controller.showYearList[index].toString(),
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: controller.selectedYear ==
-                                          controller.showYearList[index]
-                                      ? MyColors.textMain.color
-                                      : MyColors.textSecond.color,
-                                ),
-                              ),
-                            );
-                          }),
+                      child: CupertinoPicker(
+                        magnification: 1.1,
+                        //squeeze: 1.36,
+                        squeeze: 0.9,
+                        //diameterRatio: 0.2,
+                        useMagnifier: true,
+                        itemExtent: 26,
+                        onSelectedItemChanged: (int selectedItem) {
+                          controller.scrollYear(selectedItem);
+                        },
+                        scrollController: controller.yearScrollerController,
+                        selectionOverlay: Container(
+                          height: 26,
+                          color: Colors.transparent,
                         ),
+                        children: List<Widget>.generate(
+                            controller.showYearList.length, (int index) {
+                          return Center(
+                            child: Text(
+                              controller.showYearList[index].toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: controller.selectedYear ==
+                                        controller.showYearList[index]
+                                    ? MyColors.textMain.color
+                                    : MyColors.textSecond.color,
+                              ),
+                            ),
+                          );
+                        }),
                       ),
                     ),
 
                     // 月份 滚动Item
                     Expanded(
-                      child: Theme(
-                        data: ThemeData(platform: TargetPlatform.android),
-                        child: CupertinoPicker(
-                          magnification: 1.1,
-                          squeeze: 0.9,
-                          useMagnifier: true,
-                          itemExtent: 26,
-                          // This is called when selected item is changed.
-                          onSelectedItemChanged: (int selectedItem) {
-                            controller.scrollMonth(selectedItem);
-                          },
-                          scrollController: controller.monthScrollerController,
-                          selectionOverlay: Container(
-                            height: 26,
-                            color: Colors.transparent,
-                          ),
-                          children: List<Widget>.generate(
-                              controller.showMonthList.length, (int index) {
-                            return Center(
-                              child: Text(
-                                controller.showMonthList[index].toString(),
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: controller.selectedMonth ==
-                                          controller.showMonthList[index]
-                                      ? MyColors.textMain.color
-                                      : MyColors.textSecond.color,
-                                ),
-                              ),
-                            );
-                          }),
+                      child: CupertinoPicker(
+                        magnification: 1.1,
+                        squeeze: 0.9,
+                        useMagnifier: true,
+                        itemExtent: 26,
+                        // This is called when selected item is changed.
+                        onSelectedItemChanged: (int selectedItem) {
+                          controller.scrollMonth(selectedItem);
+                        },
+                        scrollController: controller.monthScrollerController,
+                        selectionOverlay: Container(
+                          height: 26,
+                          color: Colors.transparent,
                         ),
+                        children: List<Widget>.generate(
+                            controller.showMonthList.length, (int index) {
+                          return Center(
+                            child: Text(
+                              controller.showMonthList[index].toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: controller.selectedMonth ==
+                                        controller.showMonthList[index]
+                                    ? MyColors.textMain.color
+                                    : MyColors.textSecond.color,
+                              ),
+                            ),
+                          );
+                        }),
                       ),
                     ),
 
                     // 日 滚动Item
                     Expanded(
-                      child: Theme(
-                        data: ThemeData(platform: TargetPlatform.android),
-                        child: CupertinoPicker(
-                          magnification: 1.1,
-                          squeeze: 0.9,
-                          useMagnifier: true,
-                          itemExtent: 26,
-                          onSelectedItemChanged: (int selectedItem) {
-                            controller.scrollDay(selectedItem);
-                          },
-                          scrollController: controller.dayScrollerController,
-                          selectionOverlay: Container(
-                            height: 26,
-                            color: Colors.transparent,
-                          ),
-                          children: List<Widget>.generate(
-                            controller.showDaysList.length,
-                            (int index) {
-                              return Center(
-                                child: Text(
-                                  controller.showDaysList[index].toString(),
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: controller.selectDay ==
-                                            controller.showDaysList[index]
-                                        ? MyColors.textMain.color
-                                        : MyColors.textSecond.color,
-                                  ),
+                      child: CupertinoPicker(
+                        magnification: 1.1,
+                        squeeze: 0.9,
+                        useMagnifier: true,
+                        itemExtent: 26,
+                        onSelectedItemChanged: (int selectedItem) {
+                          controller.scrollDay(selectedItem);
+                        },
+                        scrollController: controller.dayScrollerController,
+                        selectionOverlay: Container(
+                          height: 26,
+                          color: Colors.transparent,
+                        ),
+                        children: List<Widget>.generate(
+                          controller.showDaysList.length,
+                          (int index) {
+                            return Center(
+                              child: Text(
+                                controller.showDaysList[index].toString(),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: controller.selectDay ==
+                                          controller.showDaysList[index]
+                                      ? MyColors.textMain.color
+                                      : MyColors.textSecond.color,
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

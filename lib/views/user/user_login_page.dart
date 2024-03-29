@@ -24,8 +24,14 @@ class UserLoginPage extends GetView<UserLoginPageViewModel> {
       backgroundColor: MyColors.background.color,
       body: CustomBody(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        appBar: const NormalAppBar(
-          title: Text("登陆账号", style: TextStyle(fontWeight: FontWeight.bold)),
+        appBar: NormalAppBar(
+          title: GestureDetector(
+            onLongPress: () {
+              Get.toNamed(PagePathUtil.editBaseUrlPage);
+            },
+            child: const Text("登陆账号",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
           showBackIcon: false,
         ),
         body: Column(

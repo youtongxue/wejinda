@@ -33,6 +33,8 @@ import 'package:wejinda/views/jww/jww_main_page.dart';
 import 'package:wejinda/views/jww/jww_score_page.dart';
 import 'package:wejinda/views/lost_and_found/lost_found_main_page.dart';
 import 'package:wejinda/views/micro_campus/micro_campus_page.dart';
+import 'package:wejinda/views/url/base_url_page.dart';
+import 'package:wejinda/views/url/base_url_page_vm.dart';
 import 'package:wejinda/views/user/account_page.dart';
 import 'package:wejinda/views/user/del/del_account_page.dart';
 import 'package:wejinda/views/user/del/del_account_page_vm.dart';
@@ -52,8 +54,6 @@ import 'package:wejinda/views/timetable/my_course_page.dart';
 import 'package:wejinda/views/timetable/setting_page.dart';
 import 'package:wejinda/views/webview/web_doc_page.dart';
 
-import '../net/api/app_info_api.dart';
-import '../net/impl/app_info_api_impl.dart';
 import '../repository/course/course_data_impl.dart';
 import '../net/api/jww_api.dart';
 import '../viewmodel/main/bnp_vm.dart';
@@ -78,9 +78,6 @@ class AppRountes {
           Get.lazyPut<AccountDataService>(() => AccountDataImpl());
           Get.lazyPut(() => SchoolPageViewModel());
           Get.lazyPut(() => UserPageViewModel());
-          // app信息请求API
-          Get.lazyPut<AppInfoApi>(() => AppInfoApiImpl());
-          Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         },
       ),
     ),
@@ -239,7 +236,6 @@ class AppRountes {
       name: PagePathUtil.userLoginPage,
       page: () => const UserLoginPage(),
       binding: BindingsBuilder(() {
-        Get.lazyPut<UserInfoApi>(() => UserInfoApiImpl());
         Get.lazyPut(() => UserLoginPageViewModel());
       }),
       transition: Transition.noTransition,
@@ -299,6 +295,13 @@ class AppRountes {
         page: () => const DelAccountPage(),
         binding: BindingsBuilder((() {
           Get.lazyPut<DelAccountPageViewModel>(() => DelAccountPageViewModel());
+        }))),
+    // 修改BaseUrl界面
+    GetPage(
+        name: PagePathUtil.editBaseUrlPage,
+        page: () => const BaseUrlPage(),
+        binding: BindingsBuilder((() {
+          Get.lazyPut<BaseUrlPageViewModel>(() => BaseUrlPageViewModel());
         }))),
   ];
 }

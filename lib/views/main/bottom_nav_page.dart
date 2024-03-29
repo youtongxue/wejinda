@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/enumm/color_enum.dart';
 import 'package:wejinda/enumm/nav_enum.dart';
+import 'package:wejinda/utils/page_path_util.dart';
 import 'package:wejinda/viewmodel/main/bnp_vm.dart';
 
 import '../../bean/vo/main/nav_item.dart';
@@ -16,6 +17,11 @@ Widget navItem(Rx<BottomNavItem> item) {
       onTap: () {
         HapticFeedback.lightImpact();
         controller.selectBottomNavItem(item);
+      },
+      onLongPress: () {
+        if (controller.bottomNavItems.indexOf(item) == 2) {
+          Get.toNamed(PagePathUtil.editBaseUrlPage);
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4),

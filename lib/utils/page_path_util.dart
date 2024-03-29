@@ -45,4 +45,6 @@ class PagePathUtil {
   static const updatePasswordPage = '/updatePasswordPage';
   // 修改密码
   static const delAccountPage = '/delAccountPage';
+  // 修改BaseUrl
+  static const editBaseUrlPage = '/editBaseUrlPage';
 }

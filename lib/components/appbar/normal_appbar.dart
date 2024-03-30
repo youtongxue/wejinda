@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:wejinda/utils/assert_util.dart';
 import '../../enumm/appbar_enum.dart';
-import '../../utils/statebar_util.dart';
 import '../container/custom_icon_button.dart';
 
 // 自定义状态栏控件
@@ -33,10 +33,6 @@ class NormalAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StateBarUtil.setAndroidStateBarColor(
-        statusBarColor: stateBarBackgroundColor,
-        statusBarIconBrightness: stateBarContentColor);
-
     var stateHeight = context.mediaQueryPadding.top;
 
     return Container(

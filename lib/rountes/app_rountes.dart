@@ -1,70 +1,68 @@
 import 'package:get/get.dart';
-import 'package:wejinda/net/api/user_info_api.dart';
-import 'package:wejinda/net/impl/jww_api_impl.dart';
-import 'package:wejinda/net/impl/user_info_api_impl.dart';
-import 'package:wejinda/repository/account/account_data_impl.dart';
-import 'package:wejinda/repository/account/account_data_service.dart';
-import 'package:wejinda/repository/course/course_data_service.dart';
-import 'package:wejinda/rountes/middleware.dart';
+import 'package:wejinda/business/user/api/user_info_api.dart';
+import 'package:wejinda/business/jww/api/jww_api_impl.dart';
+import 'package:wejinda/business/user/api/user_info_api_impl.dart';
+import 'package:wejinda/business/user/repository/account_data_impl.dart';
+import 'package:wejinda/business/user/repository/account_data_service.dart';
+import 'package:wejinda/business/time_table/repository/course_data_service.dart';
+import 'package:wejinda/rountes/app_rountes_middleware.dart';
 import 'package:wejinda/utils/page_path_util.dart';
-import 'package:wejinda/viewmodel/about_wejinda/about_wejinda_page_vm.dart';
-import 'package:wejinda/viewmodel/about_wejinda/app_update_page_vm.dart';
-import 'package:wejinda/viewmodel/composite_avatar_frame/composite_avatar_frame_vm.dart';
-import 'package:wejinda/viewmodel/jww/jww_exam_page_vm.dart';
-import 'package:wejinda/viewmodel/jww/jww_login_page_vm.dart';
-import 'package:wejinda/viewmodel/jww/jww_main_page_vm.dart';
-import 'package:wejinda/viewmodel/jww/jww_score_page_vm.dart';
-import 'package:wejinda/viewmodel/lost_and_found/lost_found_mian_page_vm.dart';
-import 'package:wejinda/viewmodel/micro_campus/micro_campus_mv.dart';
-import 'package:wejinda/viewmodel/user/account_page_vm.dart';
-import 'package:wejinda/viewmodel/user/register_accpunt_page_vm.dart';
-import 'package:wejinda/viewmodel/user/user_login_page_vm.dart';
-import 'package:wejinda/viewmodel/user/user_page_vm.dart';
-import 'package:wejinda/viewmodel/schoolpage/school_page_vm.dart';
-import 'package:wejinda/viewmodel/timetable/my_course_page_vm.dart';
-import 'package:wejinda/viewmodel/timetable/timetable_vm.dart';
-import 'package:wejinda/viewmodel/webview/web_doc_page_vm.dart';
-import 'package:wejinda/views/app/about_wejinda_page.dart';
-import 'package:wejinda/views/app/app_update_page.dart';
-import 'package:wejinda/views/composite_avatar_frame/composite_avatar_frame_page.dart';
-import 'package:wejinda/views/jww/jww_exam_page.dart';
-import 'package:wejinda/views/jww/jww_login_page.dart';
-import 'package:wejinda/views/jww/jww_main_page.dart';
-import 'package:wejinda/views/jww/jww_score_page.dart';
-import 'package:wejinda/views/lost_and_found/lost_found_main_page.dart';
-import 'package:wejinda/views/micro_campus/micro_campus_page.dart';
-import 'package:wejinda/views/url/base_url_page.dart';
-import 'package:wejinda/views/url/base_url_page_vm.dart';
-import 'package:wejinda/views/user/account_page.dart';
-import 'package:wejinda/views/user/del/del_account_page.dart';
-import 'package:wejinda/views/user/del/del_account_page_vm.dart';
-import 'package:wejinda/views/user/nickname/nickname_page.dart';
-import 'package:wejinda/views/user/nickname/nickname_page_vm.dart';
-import 'package:wejinda/views/user/retrieve_password/retrieve_password_page.dart';
-import 'package:wejinda/views/user/retrieve_password/retrieve_password_page_vm.dart';
-import 'package:wejinda/views/user/retrieve_password/retrieve_password_verify_page.dart';
-import 'package:wejinda/views/user/retrieve_password/retrieve_password_verify_page_vm.dart';
-import 'package:wejinda/views/user/update_password/update_password_page.dart';
-import 'package:wejinda/views/user/update_password/update_password_page_vm.dart';
-import 'package:wejinda/views/user/update_password/update_password_verify_page.dart';
-import 'package:wejinda/views/user/update_password/update_password_verify_page_vm.dart';
-import 'package:wejinda/views/user/slogan/slogan_page.dart';
-import 'package:wejinda/views/user/slogan/slogan_page_vm.dart';
-import 'package:wejinda/views/user/student_id/student_id_page.dart';
-import 'package:wejinda/views/user/student_id/student_id_page_vm.dart';
-import 'package:wejinda/views/user/user_login_page.dart';
-import 'package:wejinda/views/user/register_account_page.dart';
-import 'package:wejinda/views/timetable/my_course_page.dart';
-import 'package:wejinda/views/timetable/setting_page.dart';
-import 'package:wejinda/views/webview/web_doc_page.dart';
+import 'package:wejinda/business/app/about_app/about_wejinda_page_vm.dart';
+import 'package:wejinda/business/app/check_update/app_update_page_vm.dart';
+import 'package:wejinda/business/jww/jww_exam/jww_exam_page_vm.dart';
+import 'package:wejinda/business/jww/jww_login/jww_login_page_vm.dart';
+import 'package:wejinda/business/jww/jww_main/jww_main_page_vm.dart';
+import 'package:wejinda/business/jww/jww_score/jww_score_page_vm.dart';
+import 'package:wejinda/business/lost_and_found/lost_found_mian_page_vm.dart';
+import 'package:wejinda/business/micro_campus/micro_campus_mv.dart';
+import 'package:wejinda/business/user/account_info/account_page_vm.dart';
+import 'package:wejinda/business/user/register_account/register_accpunt_page_vm.dart';
+import 'package:wejinda/business/user/account_login/user_login_page_vm.dart';
+import 'package:wejinda/business/user/account_center/user_page_vm.dart';
+import 'package:wejinda/business/school/school_page_vm.dart';
+import 'package:wejinda/business/time_table/my_course/my_course_page_vm.dart';
+import 'package:wejinda/business/time_table/course_table/timetable_vm.dart';
+import 'package:wejinda/business/web_view/web_doc_page_vm.dart';
+import 'package:wejinda/business/app/about_app/about_wejinda_page.dart';
+import 'package:wejinda/business/app/check_update/app_update_page.dart';
+import 'package:wejinda/business/jww/jww_exam/jww_exam_page.dart';
+import 'package:wejinda/business/jww/jww_login/jww_login_page.dart';
+import 'package:wejinda/business/jww/jww_main/jww_main_page.dart';
+import 'package:wejinda/business/jww/jww_score/jww_score_page.dart';
+import 'package:wejinda/business/lost_and_found/lost_found_main_page.dart';
+import 'package:wejinda/business/micro_campus/micro_campus_page.dart';
+import 'package:wejinda/business/service_environment/base_url_page.dart';
+import 'package:wejinda/business/service_environment/base_url_page_vm.dart';
+import 'package:wejinda/business/user/account_info/account_page.dart';
+import 'package:wejinda/business/user/del_account/del_account_page.dart';
+import 'package:wejinda/business/user/del_account/del_account_page_vm.dart';
+import 'package:wejinda/business/user/update_nickname/nickname_page.dart';
+import 'package:wejinda/business/user/update_nickname/nickname_page_vm.dart';
+import 'package:wejinda/business/user/retrieve_password/retrieve_password_page.dart';
+import 'package:wejinda/business/user/retrieve_password/retrieve_password_page_vm.dart';
+import 'package:wejinda/business/user/retrieve_password/retrieve_password_verify_page.dart';
+import 'package:wejinda/business/user/retrieve_password/retrieve_password_verify_page_vm.dart';
+import 'package:wejinda/business/user/update_password/update_password_page.dart';
+import 'package:wejinda/business/user/update_password/update_password_page_vm.dart';
+import 'package:wejinda/business/user/update_password/update_password_verify_page.dart';
+import 'package:wejinda/business/user/update_password/update_password_verify_page_vm.dart';
+import 'package:wejinda/business/user/%20personal_introduction/slogan_page.dart';
+import 'package:wejinda/business/user/%20personal_introduction/slogan_page_vm.dart';
+import 'package:wejinda/business/user/update_student_id/student_id_page.dart';
+import 'package:wejinda/business/user/update_student_id/student_id_page_vm.dart';
+import 'package:wejinda/business/user/account_login/user_login_page.dart';
+import 'package:wejinda/business/user/register_account/register_account_page.dart';
+import 'package:wejinda/business/time_table/my_course/my_course_page.dart';
+import 'package:wejinda/business/time_table/course_setting/setting_page.dart';
+import 'package:wejinda/business/web_view/web_doc_page.dart';
 
-import '../repository/course/course_data_impl.dart';
-import '../net/api/jww_api.dart';
-import '../viewmodel/main/bnp_vm.dart';
-import '../viewmodel/timetable/seeting_page_vm.dart';
-import '../viewmodel/timetable/course_info_page_vm.dart';
-import '../views/main/bottom_nav_page.dart';
-import '../views/timetable/course_info_page.dart';
+import '../business/time_table/repository/course_data_impl.dart';
+import '../business/jww/api/jww_api.dart';
+import '../business/home_nav/bnp_vm.dart';
+import '../business/time_table/course_setting/seeting_page_vm.dart';
+import '../business/time_table/course_info/course_info_page_vm.dart';
+import '../business/home_nav/bottom_nav_page.dart';
+import '../business/time_table/course_info/course_info_page.dart';
 
 class AppRountes {
   // 别名路由配置
@@ -225,14 +223,6 @@ class AppRountes {
         page: () => const LostFoundMainPage(),
         binding: BindingsBuilder(() {
           Get.lazyPut(() => LostFoundMainPageViewModel());
-        })),
-
-    //制作头像框
-    GetPage(
-        name: PagePathUtil.compositeAvatarFrame,
-        page: () => const CompositeAvatarFramePage(),
-        binding: BindingsBuilder(() {
-          Get.lazyPut(() => CompositeAvatarFrameViewModel());
         })),
 
     // 用户登陆界面

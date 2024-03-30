@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:wejinda/repository/url/base_url_service.dart';
+import 'package:wejinda/business/service_environment/repository/base_url_service.dart';
 
 class ApiPathUtil {
   static final baseUrlService = Get.find<BaseUrlService>();

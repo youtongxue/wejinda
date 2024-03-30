@@ -3,13 +3,14 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
 import 'rountes/app_rountes.dart';
-import 'services/init_service.dart';
+import 'rountes/app_rountes_listener.dart';
+import 'services/app_init_service.dart';
 import 'utils/page_path_util.dart';
 
 // flutter build apk --split-per-abi
 void main() async {
   // 全局初始化
-  await InitService.init();
+  await AppInitService.init();
   runApp(const WejindaApp());
 }
 
@@ -26,7 +27,7 @@ class WejindaApp extends StatelessWidget {
       initialRoute: PagePathUtil.bottomNavPage,
       getPages: AppRountes.appRoutes,
       defaultTransition: Transition.native, // 页面跳转默认动画
-      //routingCallback: RoutingListener.routingListner,
+      routingCallback: RoutingListener.routingListner,
       theme: ThemeData(platform: TargetPlatform.iOS),
       debugShowCheckedModeBanner: false,
     );

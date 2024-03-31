@@ -34,23 +34,26 @@ class RoutingListener {
           final bottomNavViewModel = Get.find<BottomNavViewModel>();
           debugPrint(
               "这里的代码会在UI更新后执行 >? > > > > > ${bottomNavViewModel.pageController.page}");
-          if (bottomNavViewModel.pageController.page == 2.0) {
+          if (bottomNavViewModel.pageController.page == 2) {
+            // 初始化状态栏、导航栏
             if (Platform.isAndroid) {
               SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.light,
               ));
             } else if (Platform.isIOS) {
               SystemChrome.setSystemUIOverlayStyle(
-                  SystemUiOverlayStyle.dark.copyWith(
+                  SystemUiOverlayStyle.light.copyWith(
                 statusBarIconBrightness: Brightness.light,
               ));
             }
           } else {
+            // 初始化状态栏、导航栏
             if (Platform.isAndroid) {
               SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.dark,
               ));
             } else if (Platform.isIOS) {
+              // iOS 状态栏深色、白色 只能修改 SystemUiOverlayStyle.dark / SystemUiOverlayStyle.light
               SystemChrome.setSystemUIOverlayStyle(
                   SystemUiOverlayStyle.dark.copyWith(
                 statusBarIconBrightness: Brightness.dark,

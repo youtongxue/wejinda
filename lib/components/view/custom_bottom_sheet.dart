@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../enumm/appbar_enum.dart';
 import '../../enumm/color_enum.dart';
+import '../../enumm/nav_enum.dart';
 
 Future<T?> showMyBottomSheet<T>(
   BuildContext context, {
@@ -14,13 +18,11 @@ Future<T?> showMyBottomSheet<T>(
       topLeft: Radius.circular(20), topRight: Radius.circular(20)),
 }) async {
   // 在BottomSheet拉起时，需要根据背景使底部导航栏沉静
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarColor: backgroundColor ?? Colors.white,
-    systemNavigationBarDividerColor: backgroundColor ?? Colors.white,
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+    ));
+  }
 
   T? result = await showModalBottomSheet(
     context: context,
@@ -39,13 +41,11 @@ Future<T?> showMyBottomSheet<T>(
   );
 
   // 关闭BottomSheet时恢复背景色
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarColor: MyColors.background1.color,
-    systemNavigationBarDividerColor: MyColors.background1.color,
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ));
+  }
 
   return result;
 }

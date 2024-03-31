@@ -1,7 +1,8 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:wejinda/components/appbar/normal_appbar.dart';
@@ -40,7 +41,8 @@ class UserLoginPage extends GetView<UserLoginPageViewModel> {
             SizedBox(
               height: context.height -
                   AppBarOptions.hight50.height -
-                  context.mediaQuery.padding.top,
+                  context.mediaQuery.padding.top -
+                  context.mediaQuery.padding.bottom,
               child: Column(
                 children: [
                   Expanded(

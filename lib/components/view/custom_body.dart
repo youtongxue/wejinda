@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -33,47 +35,61 @@ class CustomBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: MyColors.background1.color,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+      ));
+    } else if (Platform.isIOS) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        statusBarIconBrightness: Brightness.dark,
+      ));
+    }
 
     final statusHeight = context.mediaQueryPadding.top;
     final appBarHeight = AppBarOptions.hight50.height;
 
-    //final navHeight = context.mediaQueryPadding.bottom;
+    final navHeight = context.mediaQueryPadding.bottom;
     final appNavHeight = NavigationOptions.hight55.height;
+    double bottomPadding = 0.0;
+    if (enableNaviBottom && Platform.isAndroid) {
+      bottomPadding = appNavHeight + navHeight;
+    } else if (!enableNaviBottom && Platform.isAndroid) {
+      bottomPadding = navHeight;
+    } else if (Platform.isIOS) {
+      bottomPadding = 0.0;
+    }
 
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(
-            top: enableAppBarPadding ? (appBarHeight + statusHeight) : 0,
-            bottom: enableNaviBottom ? (appNavHeight) : 0,
-          ),
-          color: backgroundColor ?? MyColors.cardGrey1.color,
-          child: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
-            removeBottom: true,
-            child: Container(
-              width: context.width,
-              height: context.height,
-              padding: padding,
-              margin: margin,
-              child: SingleChildScrollView(
-                physics:
-                    scroller ? const AlwaysScrollableScrollPhysics() : null,
-                child: body,
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              top: enableAppBarPadding ? (appBarHeight + statusHeight) : 0,
+              bottom: bottomPadding,
+            ),
+            color: backgroundColor ?? MyColors.background.color,
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              removeBottom: true,
+              child: Container(
+                width: context.width,
+                height: context.height,
+                padding: padding,
+                margin: margin,
+                child: SingleChildScrollView(
+                  physics:
+                      scroller ? const AlwaysScrollableScrollPhysics() : null,
+                  child: body,
+                ),
               ),
             ),
           ),
-        ),
-        if (appBar != null) appBar!,
-      ],
+          if (appBar != null) appBar!,
+        ],
+      ),
     );
   }
 }

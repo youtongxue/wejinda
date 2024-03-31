@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -78,23 +80,32 @@ class BottomNavPage extends GetView<BottomNavViewModel> {
                 children: controller.pagerList,
                 onPageChanged: (value) {
                   if (value == 2) {
-                    SystemChrome.setSystemUIOverlayStyle(
-                        SystemUiOverlayStyle.light.copyWith(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.light,
-                      systemNavigationBarColor: Colors.white,
-                      systemNavigationBarDividerColor: Colors.transparent,
-                      systemNavigationBarIconBrightness: Brightness.dark,
-                    ));
+                    // 初始化状态栏、导航栏
+                    if (Platform.isAndroid) {
+                      SystemChrome.setSystemUIOverlayStyle(
+                          const SystemUiOverlayStyle(
+                        statusBarIconBrightness: Brightness.light,
+                      ));
+                    } else if (Platform.isIOS) {
+                      SystemChrome.setSystemUIOverlayStyle(
+                          SystemUiOverlayStyle.light.copyWith(
+                        statusBarIconBrightness: Brightness.light,
+                      ));
+                    }
                   } else {
-                    SystemChrome.setSystemUIOverlayStyle(
-                        SystemUiOverlayStyle.dark.copyWith(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.dark,
-                      systemNavigationBarColor: Colors.white,
-                      systemNavigationBarDividerColor: Colors.transparent,
-                      systemNavigationBarIconBrightness: Brightness.dark,
-                    ));
+                    // 初始化状态栏、导航栏
+                    if (Platform.isAndroid) {
+                      SystemChrome.setSystemUIOverlayStyle(
+                          const SystemUiOverlayStyle(
+                        statusBarIconBrightness: Brightness.dark,
+                      ));
+                    } else if (Platform.isIOS) {
+                      // iOS 状态栏深色、白色 只能修改 SystemUiOverlayStyle.dark / SystemUiOverlayStyle.light
+                      SystemChrome.setSystemUIOverlayStyle(
+                          SystemUiOverlayStyle.dark.copyWith(
+                        statusBarIconBrightness: Brightness.dark,
+                      ));
+                    }
                   }
                 },
               ),

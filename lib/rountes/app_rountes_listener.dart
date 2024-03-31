@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +15,19 @@ class RoutingListener {
     debugPrint("当前页面 > > > :${routing.current}");
     debugPrint("路由传参 > > > :${routing.args}");
 
+    // 跳转到其他页面时，初始化状态栏、导航栏
+    if (routing.previous == PagePathUtil.bottomNavPage) {
+      if (Platform.isAndroid) {
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      } else if (Platform.isIOS) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      }
+    }
+
     switch (routing.current) {
       case PagePathUtil.bottomNavPage:
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -20,23 +35,27 @@ class RoutingListener {
           debugPrint(
               "这里的代码会在UI更新后执行 >? > > > > > ${bottomNavViewModel.pageController.page}");
           if (bottomNavViewModel.pageController.page == 2.0) {
-            SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle.light.copyWith(
-              statusBarColor: Colors.transparent,
-              statusBarIconBrightness: Brightness.light,
-              systemNavigationBarColor: Colors.white,
-              systemNavigationBarDividerColor: Colors.transparent,
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ));
+            if (Platform.isAndroid) {
+              SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+                statusBarIconBrightness: Brightness.light,
+              ));
+            } else if (Platform.isIOS) {
+              SystemChrome.setSystemUIOverlayStyle(
+                  SystemUiOverlayStyle.dark.copyWith(
+                statusBarIconBrightness: Brightness.light,
+              ));
+            }
           } else {
-            SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle.dark.copyWith(
-              statusBarColor: Colors.transparent,
-              statusBarIconBrightness: Brightness.dark,
-              systemNavigationBarColor: Colors.white,
-              systemNavigationBarDividerColor: Colors.transparent,
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ));
+            if (Platform.isAndroid) {
+              SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+                statusBarIconBrightness: Brightness.dark,
+              ));
+            } else if (Platform.isIOS) {
+              SystemChrome.setSystemUIOverlayStyle(
+                  SystemUiOverlayStyle.dark.copyWith(
+                statusBarIconBrightness: Brightness.dark,
+              ));
+            }
           }
         });
 

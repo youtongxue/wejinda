@@ -32,7 +32,8 @@ class AboutWejindaPage extends GetView<AboutWejindaPageViewModel> {
             SizedBox(
               height: context.height -
                   AppBarOptions.hight50.height -
-                  context.mediaQuery.padding.top,
+                  context.mediaQuery.padding.top -
+                  context.mediaQuery.padding.bottom,
               //color: Colors.amber,
               child: Column(
                 children: [
@@ -156,7 +157,6 @@ class AboutWejindaPage extends GetView<AboutWejindaPageViewModel> {
                       ),
                     ),
                   ),
-                  SizedBox(height: context.mediaQueryPadding.bottom),
                 ],
               ),
             ),

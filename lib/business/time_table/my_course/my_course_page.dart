@@ -72,7 +72,7 @@ Future<dynamic> _showBottomSheet(BuildContext context) {
                   borderRadius: BorderRadius.circular(0),
                   onTap: () {
                     Navigator.pop(context); // 关闭BottomSheet在路由
-                    Get.toNamed(PagePathUtil.jwwMainPage);
+                    Get.toNamed(PagePathUtil.importFromJwwPage);
                   },
                 ),
                 SettingItemText(

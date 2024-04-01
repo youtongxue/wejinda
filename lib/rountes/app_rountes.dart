@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:wejinda/business/jww/jww_course/jww_course_page.dart';
+import 'package:wejinda/business/jww/jww_course/jww_course_page_vm.dart';
 import 'package:wejinda/business/user/api/user_info_api.dart';
 import 'package:wejinda/business/jww/api/jww_api_impl.dart';
 import 'package:wejinda/business/user/api/user_info_api_impl.dart';
@@ -138,6 +140,15 @@ class AppRountes {
         binding: BindingsBuilder(
           () {
             Get.lazyPut(() => WebDocPageViewModel());
+          },
+        )),
+    // 教务网 WebView 导入课表
+    GetPage(
+        name: PagePathUtil.importFromJwwPage,
+        page: () => const JwwCoursePage(),
+        binding: BindingsBuilder(
+          () {
+            Get.lazyPut(() => JwwCoursePageViewModel());
           },
         )),
     // 教务网登陆界面

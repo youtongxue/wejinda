@@ -17,6 +17,7 @@ class PagePathUtil {
   // 教务网相关
   static const jwwLoginPage = '/jwwLoginPage';
   static const jwwMainPage = '/jwwMainPage';
+  static const importFromJwwPage = '/importFromJwwPage';
   static const jwwExamPage = '/jwwExamPage';
   static const jwwScorePage = '/jwwScorePage';
   // 账号相关

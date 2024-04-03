@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
-        android:label="wejinda"
+        android:label="We锦大"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

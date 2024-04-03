@@ -45,17 +45,17 @@ class CustomSwiper extends StatelessWidget {
 
                         // 计算缩放因子
                         double scaleFactor =
-                            (1 - (pageOffset.abs() * 0.3)).clamp(0.7, 1.0);
+                            (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
 
                         // 计算透明度
                         double fadeFactor =
-                            (1 - (pageOffset.abs() * 0.7)).clamp(0.3, 1.0);
+                            (1 - (pageOffset.abs() * 0.5)).clamp(0.5, 1.0);
 
                         // 计算水平平移值，以减少页面间隔
                         // 这里我们使用页面宽度的一部分来计算平移值，确保它足够大
                         double viewportWidth = context.width;
                         double horizontalOffset =
-                            pageOffset * viewportWidth / 5;
+                            pageOffset * viewportWidth / 7;
 
                         // 应用变换效果
                         return Transform(
@@ -96,8 +96,7 @@ class CustomSwiper extends StatelessWidget {
 
             // 指视标
             Positioned(
-              //alignment: Alignment.bottomCenter,
-              bottom: 4,
+              bottom: 0,
               left: 0,
               right: 0,
               child: Row(

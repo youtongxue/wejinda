@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../utils/statebar_util.dart';
+import 'package:flutter/services.dart';
 
 class CustomAppBar extends StatelessWidget {
   final double? height;
@@ -20,10 +20,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StateBarUtil.setAndroidStateBarColor(
-        statusBarColor: stateBarBackgroundColor,
-        statusBarIconBrightness: stateBarContentColor);
-
     var width = context.width;
     var stateHeight = context.mediaQueryPadding.top;
 

@@ -1,6 +1,5 @@
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/business/user/dto/other_account_dto.dart';
 import 'package:wejinda/enumm/storage_key_enum.dart';
 import 'package:wejinda/manager/app_user_info_manager.dart';
 import 'package:wejinda/business/user/repository/account_data_service.dart';
@@ -72,42 +71,9 @@ class JwwLoginPageViewModel extends GetxController {
         // 先存储再跳转，否则中间件回循环重定向到登陆界面
         accountDataService.saveAccount(
             AccountStorageKeyEnum.jww, username.value, password.value);
-        // 同步到云
-        updateOtherAccount(
-            OtherAccountEnum.jww.type, username.value, password.value);
 
         // 跳转
         Get.offNamed(PagePathUtil.jwwMainPage, arguments: arg);
-      },
-    );
-  }
-
-  Future<void> updateOtherAccount(
-      int otherAccountEnum, String username, String password) async {
-    final appUserDTO = AppUserInfoManager().appUserDTO.value;
-    if (!AppUserInfoManager().isLogined()) return;
-    if ((appUserDTO!.studentNum == null) || appUserDTO.studentNum != username) {
-      return;
-    }
-
-    // 已经存在教务网账号
-    final loginedOtherAccountList = appUserDTO.otherAccount;
-    for (var otherAccount in loginedOtherAccountList) {
-      if (otherAccount.otherAccountEnum == otherAccountEnum) return;
-    }
-
-    final jwwAccount = OtherAccountDTO(
-        otherAccountEnum: otherAccountEnum,
-        username: username,
-        password: password);
-    loginedOtherAccountList.add(jwwAccount);
-
-    NetManager.request(
-      netFun: userInfoApi.userUpdate(appUserDTO),
-      onDataSuccess: (rightData) async {
-        final newAppUserDTO = AppUserDTO.fromJson(rightData);
-        SmartDialog.showToast('修改成功!');
-        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
       },
     );
   }

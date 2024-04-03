@@ -200,48 +200,6 @@ class AccountPage extends GetView<AccountPageViewModel> {
                 ),
               ),
             ),
-            // 学号
-            CustomContainer(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scale: false,
-              onTap: () {
-                Get.toNamed(PagePathUtil.studentIdPage);
-              },
-              child: SizedBox(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '学号',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(width: 12),
-                    Row(
-                      children: [
-                        Center(
-                          child: Obx(
-                            () => Text(
-                              AppUserInfoManager()
-                                      .appUserDTO
-                                      .value!
-                                      .studentNum ??
-                                  '',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SvgPicture.asset(
-                          AssertUtil.iconGo,
-                          width: 12,
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
             // 专业
             CustomContainer(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -283,49 +241,7 @@ class AccountPage extends GetView<AccountPageViewModel> {
                 ),
               ),
             ),
-
             const SizedBox(height: 12),
-
-            // 教务网
-            CustomContainer(
-              borderRadius: BorderRadius.circular(10),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scale: false,
-              onTap: controller.delJwwAccount,
-              child: SizedBox(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '教务网',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(width: 12),
-                    Row(
-                      children: [
-                        Center(
-                          child: Obx(
-                            () => Text(
-                              controller.jwwAccount.value,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SvgPicture.asset(
-                          AssertUtil.iconGo,
-                          width: 12,
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
             // 修改密码
             CustomContainer(
               borderRadius: const BorderRadius.only(

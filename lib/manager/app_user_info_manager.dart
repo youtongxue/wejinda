@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../business/user/dto/app_user_dto.dart';
-import '../business/user/dto/other_account_dto.dart';
 import '../enumm/storage_key_enum.dart';
 import '../business/user/api/user_info_api.dart';
 import '../business/user/repository/account_data_service.dart';
@@ -44,17 +43,6 @@ class AppUserInfoManager {
         // 本地存储用户账号、密码信息
         accountDataService.saveAccount(AccountStorageKeyEnum.appUser,
             appUserLoginRec.email, appAccount.password!); // 这里密码需要存储真实密码
-        // 同步教务网密码到本地
-        final loginedOtherAccountList = appUserLoginRec.otherAccount;
-        for (var i = 0; i < loginedOtherAccountList.length; i++) {
-          if (loginedOtherAccountList[i].otherAccountEnum ==
-              OtherAccountEnum.jww.type) {
-            accountDataService.saveAccount(
-                AccountStorageKeyEnum.jww,
-                loginedOtherAccountList[i].username,
-                loginedOtherAccountList[i].password);
-          }
-        }
         // 初始化登陆后的Dio实例
         DioUtil.initDioConfig(DioConfig.defaultBaseUrl,
             loginToken: appUserLoginRec.loginToken);
@@ -83,17 +71,6 @@ class AppUserInfoManager {
         // 本地存储用户账号、密码信息
         accountDataService.saveAccount(AccountStorageKeyEnum.appUser,
             appUserLoginRec.email, password); // 这里密码需要存储真实密码
-        // 同步教务网密码到本地
-        final loginedOtherAccountList = appUserLoginRec.otherAccount;
-        for (var i = 0; i < loginedOtherAccountList.length; i++) {
-          if (loginedOtherAccountList[i].otherAccountEnum ==
-              OtherAccountEnum.jww.type) {
-            accountDataService.saveAccount(
-                AccountStorageKeyEnum.jww,
-                loginedOtherAccountList[i].username,
-                loginedOtherAccountList[i].password);
-          }
-        }
         // 初始化登陆后的Dio实例
         DioUtil.initDioConfig(DioConfig.defaultBaseUrl,
             loginToken: appUserLoginRec.loginToken);

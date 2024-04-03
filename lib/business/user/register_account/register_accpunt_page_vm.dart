@@ -255,7 +255,6 @@ class RegisterAccountPageViewModel extends GetxController {
         final appUserDTO = AppUserDTO(
             username: nickName.value,
             password: password.value,
-            studentNum: studentNum.value,
             sex: genderEditTextController.text,
             major: majorEditTextController.text,
             userImg: rightData,

@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:wejinda/business/user/dto/other_account_dto.dart';
-import 'package:wejinda/components/view/custom_bottom_sheet_msg_dialog.dart';
 import 'package:wejinda/enumm/storage_key_enum.dart';
 import 'package:wejinda/manager/app_user_info_manager.dart';
 
@@ -32,22 +30,6 @@ class AccountPageViewModel extends GetxController {
     // 读取本地账号信息
     jwwAccount.value =
         accountDataService.getAccount(AccountStorageKeyEnum.jww).username ?? '';
-  }
-
-  void delJwwAccount() {
-    // 当本地信息不为空时，退出账号，即删除本地信息
-    if (jwwAccount.isNotEmpty) {
-      showBottomMsgDialog(
-        Get.context!,
-        title: "退出登陆",
-        msg: "是否退出教务网账号🫣",
-        entr: () {
-          accountDataService.delAccount(AccountStorageKeyEnum.jww);
-          jwwAccount.value = '';
-          delOtherAccount(OtherAccountEnum.jww.type);
-        },
-      );
-    }
   }
 
   /// 选择性别弹窗
@@ -115,25 +97,6 @@ class AccountPageViewModel extends GetxController {
               },
             );
           }),
-    );
-  }
-
-  Future<void> delOtherAccount(int otherAccountEnum) async {
-    final loginedOtherAccountList =
-        AppUserInfoManager().appUserDTO.value!.otherAccount;
-    for (var i = 0; i < loginedOtherAccountList.length; i++) {
-      if (loginedOtherAccountList[i].otherAccountEnum == otherAccountEnum) {
-        loginedOtherAccountList.removeAt(i);
-      }
-    }
-
-    NetManager.request(
-      netFun: userInfoApi.userUpdate(AppUserInfoManager().appUserDTO.value!),
-      onDataSuccess: (rightData) async {
-        final newAppUserDTO = AppUserDTO.fromJson(rightData);
-        SmartDialog.showToast('修改成功!');
-        AppUserInfoManager().updateAppUserInfoDTO(newAppUserDTO);
-      },
     );
   }
 }

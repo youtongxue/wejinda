@@ -50,8 +50,6 @@ import 'package:wejinda/business/user/update_password/update_password_verify_pag
 import 'package:wejinda/business/user/update_password/update_password_verify_page_vm.dart';
 import 'package:wejinda/business/user/%20personal_introduction/slogan_page.dart';
 import 'package:wejinda/business/user/%20personal_introduction/slogan_page_vm.dart';
-import 'package:wejinda/business/user/update_student_id/student_id_page.dart';
-import 'package:wejinda/business/user/update_student_id/student_id_page_vm.dart';
 import 'package:wejinda/business/user/account_login/user_login_page.dart';
 import 'package:wejinda/business/user/register_account/register_account_page.dart';
 import 'package:wejinda/business/time_table/my_course/my_course_page.dart';
@@ -172,7 +170,6 @@ class AppRountes {
             Get.lazyPut(() => JwwMainPageViewModel());
           },
         )),
-
     // 教务网考试查询界面
     GetPage(
         name: PagePathUtil.jwwExamPage,
@@ -193,7 +190,6 @@ class AppRountes {
             Get.lazyPut(() => JwwScorePageViewModel());
           },
         )),
-
     // 账号管理界面
     GetPage(
         name: PagePathUtil.accountPage,
@@ -204,7 +200,6 @@ class AppRountes {
             Get.lazyPut(() => AccountPageViewModel());
           },
         )),
-
     // 注册账号界面
     GetPage(
       name: PagePathUtil.registerAccountPage,
@@ -217,7 +212,6 @@ class AppRountes {
       ),
       transition: Transition.noTransition,
     ),
-
     // 微校园界面
     GetPage(
         name: PagePathUtil.microCampusPage,
@@ -227,7 +221,6 @@ class AppRountes {
             Get.lazyPut(() => MicroCampusModalView());
           },
         )),
-
     // 失物招领
     GetPage(
         name: PagePathUtil.lostAndFound,
@@ -261,7 +254,6 @@ class AppRountes {
         binding: BindingsBuilder((() {
           Get.lazyPut<NicknamePageViewModel>(() => NicknamePageViewModel());
         }))),
-
     // 编辑简介界面
     GetPage(
         name: PagePathUtil.sloganPage,
@@ -269,15 +261,6 @@ class AppRountes {
         binding: BindingsBuilder((() {
           Get.lazyPut<SloganPageViewModel>(() => SloganPageViewModel());
         }))),
-
-    // 编辑学号界面
-    GetPage(
-        name: PagePathUtil.studentIdPage,
-        page: () => const StudentIdPage(),
-        binding: BindingsBuilder((() {
-          Get.lazyPut<StudentIdPageViewModel>(() => StudentIdPageViewModel());
-        }))),
-
     // 修改密码发送验证码界面
     GetPage(
         name: PagePathUtil.updatePasswordVerifyCodePage,
